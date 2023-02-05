@@ -10,33 +10,9 @@
     </head>
     <body>
 
-    {% if user %}
-        <nav>
-            <a href="{{ url_for('logout') }}">Logout</a>
-        </nav>
-    {% else %}
-        <nav>
-            <a href="{{ url_for('login') }}"> Sign In</a> ||
-            <a href="{{ url_for('register') }}">Register</a>
-        </nav>
-    {% endif %}
-        <nav>
-            <a href="{{ url_for('index') }}"> Home</a> ||
-            <a href="{{ url_for('get_notes') }}"> My Notes</a> ||
-            <a href="{{ url_for('new_note') }}">Add Note</a>
-        </nav>  
+        <h1>Welcome to BudgetAll!</h1>
 
-        <h1>Welcome {% if user %}{{user}}{% endif %} to the 49er Notes App!</h1>
-
-        <h2>Use this site to maintain and organize your notes.</h2>
-
-        <h3> <nav> <a href={{ url_for('get_notes') }}> My notes </a> </nav> </h3>
-
-        <!-- <h3>Course notes</h3>
-
-        <h3>To Do</h3>
-
-        <h3>Work notes</h3> -->
+        <h2>Use this site for all your budgeting needs.</h2>
 
     </body>
 </html>
