@@ -10,6 +10,20 @@
     </head>
     <body>
 
+        {% if user %}
+            <nav>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </nav>
+        {% else %}
+            <nav>
+                <a href="{{ url_for('login') }}"> Sign In</a> ||
+                <a href="{{ url_for('register') }}">Register</a>
+            </nav>
+        {% endif %}
+            <nav>
+                <a href="{{ url_for('index') }}"> Home</a>
+            </nav>
+
         <h1>Welcome to BudgetAll!</h1>
 
         <h2>Use this site for all your budgeting needs.</h2>
