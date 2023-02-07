@@ -1,5 +1,5 @@
 from database import db
-import datetime
+from datetime import datetime
 
 
 class User(db.Model):
@@ -13,16 +13,16 @@ class User(db.Model):
         self.username = username
         self.email = email
         self.password = password
-        self.registered_on = datetime.date.today()
+        self.registered_on = datetime.now()
 
 
 class Balance(db.Model):
     id = db.Column("id", db.Integer, primary_key=True)
-    bal = db.Column("bal", db.Integer)
+    bal = db.Column("bal", db.Float)
     bal_at = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    def __init__(self, bal, bal_at, user_id):
+    def __init__(self, bal, user_id):
         self.bal = bal
-        self.bal_at = bal_at
         self.user_id = user_id
+        self.bal_at = datetime.now()

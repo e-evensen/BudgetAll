@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, DecimalField
 from wtforms.validators import Length, DataRequired, EqualTo, Email
 from wtforms import ValidationError
 from models import User
@@ -54,7 +54,7 @@ class BalanceForm(FlaskForm):
     class Meta:
         csrf = False
 
-    balance = IntegerField('Balance', [
+    balance = DecimalField('Balance', [
         DataRequired(message='Please enter a number.')
     ])
 

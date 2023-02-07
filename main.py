@@ -1,11 +1,12 @@
 # Nick Warren Git comment
-
+from datetime import datetime
 import os
 from flask import Flask
 from flask import render_template, request, redirect, url_for, session
 from database import db
 from models import User as User
-from forms import LoginForm, RegisterForm
+from models import Balance as Balance
+from forms import LoginForm, RegisterForm, BalanceForm
 import bcrypt
 
 app = Flask(__name__)
@@ -25,8 +26,27 @@ with app.app_context():
 def index():
     # check if a user is saved in a session
     if session.get('user'):
-        return render_template('index.html', user=session['user'])
+        balance = Balance.query.filter_by(user_id=session['user_id']).order_by(Balance.bal_at.desc()).first()
+        return render_template('index.html', user=session['user'], balance=balance)
     return render_template("index.html")
+
+
+@app.route("/update_balance", methods=['POST', 'GET'])
+def update_balance():
+    form = BalanceForm()
+
+    if session.get('user'):
+        if request.method == "POST" and form.validate_on_submit():
+            bal = request.form['balance']
+            new_record = Balance(bal, session['user_id'])
+            db.session.add(new_record)
+            db.session.commit()
+            latest_balance = Balance.query.filter_by(user_id=session['user_id']).order_by(Balance.bal_at.desc()).first()
+
+            return redirect(url_for('index', balance=latest_balance))
+        return render_template("update_balance.html", form=form)
+    else:
+        return render_template("login.html")
 
 
 @app.route('/register', methods=['POST', 'GET'])

@@ -8,6 +8,11 @@
 </head>
     <body>
 
+        <div class="navdiv">
+            <nav>
+                <a href="{{ url_for('index') }}"> Home</a>
+            </nav>
+        </div>
     {% if user %}
         <nav>
             <a href="{{ url_for('logout') }}">Logout</a>
@@ -19,13 +24,6 @@
         </nav>
     {% endif %}
 
-        <div class="navdiv">
-
-            <nav>
-                <a href="{{ url_for('index') }}"> Home</a>
-            </nav>
-
-        </div>
         <h1>Welcome {% if user %}{{user}}{% endif %}to BudgetAll!</h1>
 
         <h2>Use this site for all your budgeting needs.</h2>
