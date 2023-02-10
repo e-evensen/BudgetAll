@@ -1,13 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Environment Test</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="BudgetAll">
+        <title>BudgetAll</title>
+        <!-- styles -->
         <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     </head>
-    
     <body>
-        <h1>This is a test for the environment created by {{user.name}}</h1>
+
+        <div class="navdiv">
+            <nav>
+                <a href="{{ url_for('index') }}"> Home</a>
+            </nav>
+        </div>
+    {% if user %}
+        <nav>
+            <a href="{{ url_for('update_balance') }}">Update Balance</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+    {% else %}
+        <nav>
+            <a href="{{ url_for('login') }}"> Sign In</a> ||
+            <a href="{{ url_for('register') }}">Register</a>
+        </nav>
+    {% endif %}
+
+        <h1>Welcome to BudgetAll!</h1>
+
+        <h2>Use this site for all your budgeting needs.</h2>
+
+    {% if user %}
+        <p>Your balance is {{ balance.bal }}</p>
+    {% endif %}
+
     </body>
 </html>
