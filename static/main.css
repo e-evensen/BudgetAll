@@ -17,6 +17,7 @@ hr{
     border-style: groove;
     background-color: #008000;
 }
+button{}
   
   /* Center login form on the page */
   .login-form {
@@ -26,10 +27,29 @@ hr{
     justify-content: center;
     height: 100vh;
   }
+  .calc {
+    text-align: left;
+    font-family: 'Courier New', Courier, monospace;
+    color: #16a31b;
+    font-weight:bold;
+  }
+  .buttonCalc{
+      background-color: #16a31b; /* Green */
+      border: none;
+      color: rgb(8, 3, 15);
+      
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+    }
+  
   
   /* Style the input fields and buttons */
   input[type="text"], input[type="password"] {
-    padding: 12px;
+    padding: 1px;
     border: none;
     border-radius: 5px;
     margin-bottom: 10px;
