@@ -106,6 +106,10 @@ def logout():
 
     return redirect(url_for('index'))
 
+@app.route('/calculator', methods=['POST', 'GET'])
+def calculator():
+    return render_template("calculator.html")
+
 
 if __name__ == "__main__":
     app.run(host=os.getenv('IP', '127.0.0.1'), port=int(os.getenv('PORT', 5000)), debug=True)
