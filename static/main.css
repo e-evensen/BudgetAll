@@ -1,10 +1,34 @@
 body {
     padding: 30px 45px;
-    }
+    background-color: rgb(175, 193, 210);
+    text-align: center;}
 h1{
-    color:blue;
+    color:rgba(16, 132, 40, 0.914);
+    text-align: center;
+    
+}
+hr{
+  border: 3px solid rgb(28, 170, 30);
 }
 h2{
-    color:white;
-    background:blue;
-}
+    color:rgb(9, 8, 8);
+    background:rgb(0, 187, 255);
+    text-align: center;}
+a{
+    color:inherit;
+    color:black;
+    font-family: courier;
+    text-align: center; 
+  }
+  a:visited {
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: none;
+  }
+  
+  a:active {
+    text-decoration: none;
+  }
+ 
