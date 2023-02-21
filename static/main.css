@@ -1,10 +1,67 @@
 body {
-    padding: 30px 45px;
+    padding: 30px 30px;
+    text-align: center;
+    background-color: #82f9f7dc;
+    font-family: Arial, sans-serif;
     }
 h1{
-    color:blue;
-}
+    color: #008000;}
 h2{
-    color:white;
-    background:blue;
+    color:rgb(26, 177, 18);
 }
+hr{
+    padding: 2px;
+    border-color: rgb(3, 164, 16);
+    border-width: 2px;
+    border-top-right-radius: 2px;
+    border-style: groove;
+    background-color: #008000;
+}
+  
+  /* Center login form on the page */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  /* Style the input fields and buttons */
+  input[type="text"], input[type="password"] {
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  button {
+    background-color: #020502;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  /* Style the login form header */
+  .login nav{
+    color: #000000;
+    margin-bottom: 0px;
+  }
+  
+  /* Style error messages */
+  .error-message {
+    color: #ff0000;
+    margin-top: 10px;
+  }
+  
+  /* Style success messages */
+  .success-message {
+    color: #008000;
+    margin-top: 10px;
+  }
+  
