@@ -17,8 +17,6 @@ hr{
     border-style: groove;
     background-color: #008000;
 }
-button{}
-  
   /* Center login form on the page */
   .login-form {
     display: flex;
