@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="BudgetAll">
+        <title>BudgetAll</title>
+        <!-- styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
+    </head>
+    <body>
+
+        <div class="navdiv">
+            <nav>
+                <a href="{{ url_for('index') }}"> Home</a>
+            </nav>
+        </div>
+    {% if user %}
+        <nav>
+            <a href="{{ url_for('update_balance') }}">Update Balance</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+    {% else %}
+        <nav>
+            <a href="{{ url_for('login') }}"> Sign In</a> ||
+            <a href="{{ url_for('register') }}">Register</a>
+        </nav>
+    {% endif %}
+
+        <h1>Welcome {% if user %}{{user}}{% endif %}to BudgetAll!</h1>
+        <h2>Use this site for all your budgeting needs.</h2>
+
+        <div class="formwrapper">
+            <h2 class="title">Update Balance</h2>
+            <form method="POST">
+                <div class="form-field">
+                    {{ form.balance.label }} {{ form.balance }}
+                    {% if form.balance.errors %}
+                        <ul class="errors">
+                            {% for error in form.balance.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                {{ form.submit }}
+            </form>
+        </div>
+
+    </body>
+</html>
