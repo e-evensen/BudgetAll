@@ -17,6 +17,7 @@
         <br>
     {% if user %}
         <nav>
+            <a href="{{ url_for('update_balance') }}">Update Balance</a> ||
             <a href="{{ url_for('logout') }}">Logout</a>
         </nav>
     {% else %}

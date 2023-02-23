@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Savings Calculator</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <script src="{{ url_for('static', filename='calculator.js') }}"></script>
 </head>
 
 <body>
@@ -15,33 +16,30 @@
             </nav>
         </div>
         <br>
-        {% if user %}
+    {% if user %}
         <nav>
             <a href="{{ url_for('update_balance') }}">Update Balance</a> || 
             <a href="{{ url_for('logout') }}">Logout</a>
         </nav>
         <br>
-        {% else %}
+    {% else %}
         <nav>
             <a href="{{ url_for('login') }}"> Sign In</a> ||
             <a href="{{ url_for('register') }}">Register</a>
         </nav>
-        {% endif %}
+    {% endif %}
     </header>
 
     <div class="calc">
         <h1>Savings Calculator</h1>
-            <form>
-                <label for="cost">How much does it cost?</label>
+            <form name="calcForm">
+                <label for="cost">Enter how much you want to save up:</label>
                 <input type="number" id="cost" name="cost"><br><br>
   
-                <label for="income">What is your weekly net income?</label>
+                <label for="income">Enter your net daily income (after expenses):</label>
                 <input type="number" id="income" name="income"><br><br>
   
-                <label for="weekly-savings">How much do you want to save each week?</label>
-                <input type="number" id="weekly-savings" name="weekly-savings"><br><br>
-  
-                <button class="buttonCalc" type="button" onclick="calculate()">Calculate</button>
+                <button type="button" onclick="displayResult()">Add</button>
             </form>
       <div id="result"></div>
     </div>

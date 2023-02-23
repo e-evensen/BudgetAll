@@ -7,24 +7,27 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
 </head>
     <body>
-
-        <div class="navdiv">
+        <header>
+            <div class="navdiv">
+                <nav>
+                    <a href="{{ url_for('index') }}">Home</a> ||
+                    <a href="{{ url_for('calculator')}}">Calculator</a>
+                </nav>
+            </div>
+            <br>
+        {% if user %}
             <nav>
-                <a href="{{ url_for('index') }}"> Home</a> ||
-                <a href="{{ url_for('calculator')}}">Calculator</a>
+                <a href="{{ url_for('update_balance') }}">Update Balance</a> || 
+                <a href="{{ url_for('logout') }}">Logout</a>
             </nav>
-        </div>
-        <br>
-    {% if user %}
-        <nav>
-            <a href="{{ url_for('logout') }}">Logout</a>
-        </nav>
-    {% else %}
-        <nav>
-            <a href="{{ url_for('login') }}"> Sign In</a> ||
-            <a href="{{ url_for('register') }}">Register</a>
-        </nav>
-    {% endif %}
+            <br>
+        {% else %}
+            <nav>
+                <a href="{{ url_for('login') }}"> Sign In</a> ||
+                <a href="{{ url_for('register') }}">Register</a>
+            </nav>
+        {% endif %}
+        </header>
 
         <h1>Welcome {% if user %}{{user}}{% endif %}to BudgetAll!</h1>
 
