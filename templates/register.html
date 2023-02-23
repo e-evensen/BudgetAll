@@ -10,9 +10,11 @@
 
         <div class="navdiv">
             <nav>
-                <a href="{{ url_for('index') }}"> Home</a>
+                <a href="{{ url_for('index') }}"> Home</a> ||
+                <a href="{{ url_for('calculator')}}">Calculator</a>
             </nav>
         </div>
+        <br>
     {% if user %}
         <nav>
             <a href="{{ url_for('logout') }}">Logout</a>

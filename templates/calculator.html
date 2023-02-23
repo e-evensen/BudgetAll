@@ -2,47 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/main.css" type="text/css" >
     <title>Savings Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
-<body class="calc">
-    <h1>Savings Calculator</h1>
-    <form>
-      <label for="goal">What do you want to save for?</label>
-      <input type="text" id="goal" name="goal"><br><br>
 
-      <label for="cost">How much does it cost?</label>
-      <input type="number" id="cost" name="cost"><br><br>
+<body>
+    <header>
+        <div class="navdiv">
+            <nav>
+                <a href="{{ url_for('index') }}">Home</a> ||
+                <a href="{{ url_for('calculator')}}">Calculator</a>
+            </nav>
+        </div>
+        <br>
+        {% if user %}
+        <nav>
+            <a href="{{ url_for('update_balance') }}">Update Balance</a> || 
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+        <br>
+        {% else %}
+        <nav>
+            <a href="{{ url_for('login') }}"> Sign In</a> ||
+            <a href="{{ url_for('register') }}">Register</a>
+        </nav>
+        {% endif %}
+    </header>
 
-      <label for="income">What is your weekly net income?</label>
-      <input type="number" id="income" name="income"><br><br>
-
-      <label for="weekly-savings">How much do you want to save each week?</label>
-      <input type="number" id="weekly-savings" name="weekly-savings"><br><br>
-
-      <button class="buttonCalc" type="button" onclick="calculate()">Calculate</button>
-    </form>
-    <div id="result"></div>
-
-    <script>
-        function calculate() {
-          const goal = document.getElementById("goal").value;
-          const cost = parseInt(document.getElementById("cost").value);
-          const income = parseInt(document.getElementById("income").value);
-          const weeklySavings = parseInt(document.getElementById("weekly-savings").value);
+    <div class="calc">
+        <h1>Savings Calculator</h1>
+            <form>
+                <label for="cost">How much does it cost?</label>
+                <input type="number" id="cost" name="cost"><br><br>
   
-          if (weeklySavings > income) {
-            alert("Your weekly savings cannot be greater than your weekly income.");
-            return;
-          }
+                <label for="income">What is your weekly net income?</label>
+                <input type="number" id="income" name="income"><br><br>
   
-          const weeks = Math.ceil(cost / weeklySavings);
+                <label for="weekly-savings">How much do you want to save each week?</label>
+                <input type="number" id="weekly-savings" name="weekly-savings"><br><br>
   
-          const result = document.getElementById("result");
-          result.innerHTML = `It will take you ${weeks} weeks to save $${cost} for ${goal} by saving $${weeklySavings} per week.`;
-        }
-      </script>
-
+                <button class="buttonCalc" type="button" onclick="calculate()">Calculate</button>
+            </form>
+      <div id="result"></div>
+    </div>
+    
+  
+    
+</body>
 </html>
