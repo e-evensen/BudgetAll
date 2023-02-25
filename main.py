@@ -44,7 +44,7 @@ def update_balance():
             latest_balance = Balance.query.filter_by(user_id=session['user_id']).order_by(Balance.bal_at.desc()).first()
 
             return redirect(url_for('index', balance=latest_balance))
-        return render_template("update_balance.html", form=form)
+        return render_template("update_balance.html", user=session['user'], form=form)
     else:
         return render_template("login.html")
 
@@ -108,6 +108,8 @@ def logout():
 
 @app.route('/calculator', methods=['POST', 'GET'])
 def calculator():
+    if session.get('user'):
+        return render_template("calculator.html", user=session['user'])
     return render_template("calculator.html")
 
 
