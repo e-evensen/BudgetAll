@@ -38,7 +38,13 @@
         <h2>Use this site for all your budgeting needs.</h2>
 
     {% if user %}
-        <p>Your balance is {{ balance.bal }}</p>
+        <p>Your balance is <span id="balance"></span></p>
+
+        <script>
+            var bal = {{ balance.bal }};
+            var balanceString = bal.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+            document.getElementById('balance').innerHTML = balanceString;
+        </script>
     {% endif %}
 
     </body>
