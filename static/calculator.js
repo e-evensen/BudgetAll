@@ -27,6 +27,7 @@ function displayResult() {
         resultElement.innerHTML = "Please enter a valid, positive number greater than one for your income";
     }
     else {
-        resultElement.innerHTML = "It would take you roughly " + result + " days to save up $" + cost + ".";
+        let frmtCost = Number(cost).toLocaleString("en-US", {style:"currency", currency:"USD"})
+        resultElement.innerHTML = "It would take you roughly " + result + " days to save up " + frmtCost + ".";
     }
 }
