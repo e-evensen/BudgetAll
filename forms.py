@@ -18,7 +18,7 @@ class RegisterForm(FlaskForm):
 
     password = PasswordField('Password', [
         DataRequired(message="Please enter a password."),
-        EqualTo('confirmPassword', message='Passwords must match')
+        EqualTo('confirmPassword', message='Passwords must match'),
     ])
 
     confirmPassword = PasswordField('Confirm Password', validators=[

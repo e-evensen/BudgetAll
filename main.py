@@ -25,14 +25,20 @@ with app.app_context():
 @app.route("/index")
 def index():
     # check if a user is saved in a session
+    # check if a user is saved in a session
     if session.get('user'):
-        balance = Balance.query.filter_by(user_id=session['user_id']).order_by(Balance.bal_at.desc()).first()
-        return render_template('index.html', user=session['user'], balance=balance)
+        if request.method == "POST":
+            balance = request.form.get("balance")
+            # process the form data
+            return render_template('index.html', user=session['user'])
+        else:
+            balance = Balance.query.filter_by(user_id=session['user_id']).order_by(Balance.bal_at.desc()).first()
+            return render_template('index.html', user=session['user'], balance=balance)
     return render_template("index.html")
 
 
-@app.route("/update_balance", methods=['POST', 'GET'])
-def update_balance():
+@app.route("/set_balance", methods=['POST', 'GET'])
+def set_balance():
     form = BalanceForm()
 
     if session.get('user'):
@@ -44,7 +50,7 @@ def update_balance():
             latest_balance = Balance.query.filter_by(user_id=session['user_id']).order_by(Balance.bal_at.desc()).first()
 
             return redirect(url_for('index', balance=latest_balance))
-        return render_template("update_balance.html", user=session['user'], form=form)
+        return render_template("set_balance.html", user=session['user'], form=form)
     else:
         return render_template("login.html")
 
@@ -67,6 +73,11 @@ def register():
         # save the user's name to the session
         session['user'] = username
         session['user_id'] = new_user.id  # access id value from user model of this newly added user
+        # give new users 0 balance
+        bal = 0
+        new_record = Balance(bal, session['user_id'])
+        db.session.add(new_record)
+        db.session.commit()
         # show user dashboard view
         return redirect(url_for('index'))
 
@@ -105,6 +116,7 @@ def logout():
         session.clear()
 
     return redirect(url_for('index'))
+
 
 @app.route('/calculator', methods=['POST', 'GET'])
 def calculator():

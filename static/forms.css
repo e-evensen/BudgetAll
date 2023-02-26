@@ -18,6 +18,7 @@ form {
 .formwrapper {
   position: relative;
   background: white;
+  margin: 0 auto;
   width: 350px;
   box-shadow: 0 0 5px rgba(65, 67, 144, 0.1);
   padding: 10px;
