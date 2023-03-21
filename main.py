@@ -124,6 +124,11 @@ def calculator():
         return render_template("calculator.html", user=session['user'])
     return render_template("calculator.html")
 
+@app.route('/view_expenses', methods=['POST', 'GET'])
+def view_expenses():
+    if session.get('user'):
+        return render_template("view_expenses.html", user=session['user'])
+    return render_template("view_expenses.html")
 
 if __name__ == "__main__":
     app.run(host=os.getenv('IP', '127.0.0.1'), port=int(os.getenv('PORT', 5000)), debug=True)
