@@ -17,9 +17,10 @@
         <br>
     {% if user %}
         <nav>
-            <a href="{{ url_for('update_balance') }}">Update Balance</a> ||
-            <a href="{{ url_for('logout') }}">Logout</a> ||
-            <a href="{{ url_for('view_expenses')}}">View Expenses</a>
+            <a href="{{ url_for('update_balance') }}">Update Balance</a> || 
+            <a href="{{ url_for('view_expenses')}}">View Expenses</a> || 
+            <a href="{{ url_for('logout') }}">Logout</a> 
+
         </nav>
     {% else %}
         <nav>
