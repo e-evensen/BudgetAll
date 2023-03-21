@@ -1,11 +1,11 @@
 # Nick Warren Git comment
-from datetime import datetime
+from datetime import datetime, date
 import os
 from flask import Flask
 from flask import render_template, request, redirect, url_for, session
 from database import db
 from models import User as User
-from models import Balance as Balance
+from models import Balance, Expense
 from forms import LoginForm, RegisterForm, BalanceForm
 import bcrypt
 
@@ -127,8 +127,29 @@ def calculator():
 @app.route('/view_expenses', methods=['POST', 'GET'])
 def view_expenses():
     if session.get('user'):
-        return render_template("view_expenses.html", user=session['user'])
-    return render_template("view_expenses.html")
+        expenses = Expense.query.filter_by(user_id=session['user_id'])
+        return render_template("view_expenses.html", user=session['user'], expenses=expenses)
+    else:
+        return render_template("view_expenses.html")
 
+@app.route('/add_expenses', methods=['POST', 'GET'])
+def add_expenses():
+    if request.method == 'POST':
+        exp_name = request.form['expense_description']
+        exp = request.form['expense_ammount']
+        exp_cat = request.form['expense_category']
+        new_exp = Expense(exp_name=exp_name,
+                          exp=exp,
+                          exp_cat=exp_cat, 
+                          user_id=session['user_id'],
+                          exp_time=datetime.now()
+                          )
+        db.session.add(new_exp)
+        db.session.commit()
+        expenses = Expense.query.filter_by(user_id=session['user_id'])
+        return render_template("view_expenses.html", user=session['user'], expenses=expenses)
+    else:
+        return render_template("login.html")
 if __name__ == "__main__":
     app.run(host=os.getenv('IP', '127.0.0.1'), port=int(os.getenv('PORT', 5000)), debug=True)
+

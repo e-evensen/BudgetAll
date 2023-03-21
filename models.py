@@ -26,3 +26,14 @@ class Balance(db.Model):
         self.bal = bal
         self.user_id = user_id
         self.bal_at = datetime.now()
+
+
+class Expense(db.Model):
+    id = db.Column("id", db.Integer, primary_key=True)
+    exp_name = db.Column("exp_name", db.String)
+    exp = db.Column("exp", db.Float)
+    exp_cat = db.Column("exp_cat", db.String)
+    exp_time = db.Column(db.DateTime, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    
