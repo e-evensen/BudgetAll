@@ -59,3 +59,13 @@ class BalanceForm(FlaskForm):
     ])
 
     submit = SubmitField('Set Balance')
+
+class IncomeForm(FlaskForm):
+    class Meta:
+        csrf = False
+
+    income = DecimalField('income', [
+        DataRequired(message='Please enter a number.')
+    ])
+
+    submit = SubmitField('Set Income')

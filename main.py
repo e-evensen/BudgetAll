@@ -5,8 +5,8 @@ from flask import Flask
 from flask import render_template, request, redirect, url_for, session
 from database import db
 from models import User as User
-from models import Balance, Expense
-from forms import LoginForm, RegisterForm, BalanceForm
+from models import Balance, Expense, Income
+from forms import LoginForm, RegisterForm, BalanceForm, IncomeForm
 import bcrypt
 
 app = Flask(__name__)
@@ -29,11 +29,13 @@ def index():
     if session.get('user'):
         if request.method == "POST":
             balance = request.form.get("balance")
+            income = request.form.get("income")
             # process the form data
             return render_template('index.html', user=session['user'])
         else:
             balance = Balance.query.filter_by(user_id=session['user_id']).order_by(Balance.bal_at.desc()).first()
-            return render_template('index.html', user=session['user'], balance=balance)
+            income = Income.query.filter_by(user_id=session['user_id']).order_by(Income.inc_at.desc()).first()
+            return render_template('index.html', user=session['user'], balance=balance, income=income)
     return render_template("index.html")
 
 
@@ -150,6 +152,24 @@ def add_expenses():
         return render_template("view_expenses.html", user=session['user'], expenses=expenses)
     else:
         return render_template("login.html")
+
+@app.route("/set_income", methods=['POST', 'GET'])
+def set_income():
+    form = IncomeForm()
+
+    if session.get('user'):
+        if request.method == "POST" and form.validate_on_submit():
+            inc = request.form['income']
+            new_record = Income(inc, session['user_id'])
+            db.session.add(new_record)
+            db.session.commit()
+            latest_income = Income.query.filter_by(user_id=session['user_id']).order_by(Income.inc_at.desc()).first()
+
+            return redirect(url_for('index', income=latest_income))
+        return render_template("set_income.html", user=session['user'], form=form)
+    else:
+        return render_template("login.html")
+
 if __name__ == "__main__":
     app.run(host=os.getenv('IP', '127.0.0.1'), port=int(os.getenv('PORT', 5000)), debug=True)
 
