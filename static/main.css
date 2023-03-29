@@ -86,4 +86,108 @@ hr{
   header {
     text-align: center;
   }
+<<<<<<< Updated upstream
   
+=======
+
+  /* Table Styles */
+
+.table-wrapper{
+  margin: 10px 70px 70px;
+  box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+}
+
+.fl-table {
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: normal;
+  border: none;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+  white-space: nowrap;
+  background-color: white;
+}
+
+.fl-table td, .fl-table th {
+  text-align: center;
+  padding: 8px;
+}
+
+.fl-table td {
+  border-right: 1px solid #dad7d7e1;
+  font-size: 12px;
+}
+
+.fl-table thead th {
+  color: #ffffff;
+  background: #4FC3A1;
+}
+
+.fl-table tr:nth-child(even) {
+  background: #dad7d7e1;
+}
+
+  /* View Expenses Button */
+.buttonExp{
+  display:inline-block;
+  padding:0.2em 1.45em;
+  margin:0.1em;
+  border:0.15em solid #CCCCCC;
+  box-sizing: border-box;
+  text-decoration:none;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-weight:400;
+  color:#000000;
+  background-color:#CCCCCC;
+  text-align:center;
+  position:relative;
+  width: auto;
+}
+
+.buttonExp:hover{
+  border-color:#7a7a7a;
+}
+
+.buttonExp:active{
+  background-color:#999999;
+}
+
+@media all and (max-width:30em){
+  .buttonExp{
+    display:block;
+    margin:0.2em auto;
+    }
+    } 
+
+
+/* Input Styling for View Exp */
+input.inputExp[type=text], 
+input.inputExp[type=number] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: none;
+  font-size: 16px;
+  color: #333;
+  width: 100%;
+  max-width: 250px;
+  margin-bottom: 15px;
+}
+
+input.inputExp[type=text]:focus, 
+input.inputExp[type=number]:focus {
+  outline: none;
+  border-color: #6ac5b9;
+}
+img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto; 
+  max-height: 400px;
+  max-width: 400px;
+  padding-top: 9px;
+  padding-bottom: 9px;;
+}
+>>>>>>> Stashed changes

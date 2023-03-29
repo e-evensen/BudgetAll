@@ -13,25 +13,34 @@
         <header>
             <div class="navdiv">
                 <nav>
-                    <a href="{{ url_for('index') }}">Home</a> ||
+                    <a href="{{ url_for('index') }}">Home</a> 🏦
                     <a href="{{ url_for('calculator')}}">Calculator</a>
                 </nav>
             </div>
             <br>
         {% if user %}
             <nav>
+<<<<<<< Updated upstream
                 <a href="{{ url_for('update_balance') }}">Update Balance</a> || 
                 <a href="{{ url_for('logout') }}">Logout</a>
+=======
+                <a href="{{ url_for('set_balance') }}">Update Balance</a> 🏦
+                <a href="{{ url_for('set_income') }}">Update Income</a> 🏦
+                <a href="{{ url_for('view_expenses')}}">View Expenses</a> 🏦
+                <a href="{{ url_for('total_income') }}">Update Balance</a> 🏦
+                <a href="{{ url_for('logout') }}">Logout</a> 
+                
+>>>>>>> Stashed changes
             </nav>
             <br>
         {% else %}
             <nav>
-                <a href="{{ url_for('login') }}"> Sign In</a> ||
+                <a href="{{ url_for('login') }}"> Sign In</a> 🏦
                 <a href="{{ url_for('register') }}">Register</a>
             </nav>
         {% endif %}
         </header>
-
+        <hr>
         <h1>Welcome {% if user %}{{user}}{% endif %} to BudgetAll!</h1>
         <hr>
 
@@ -46,6 +55,6 @@
             document.getElementById('balance').innerHTML = balanceString;
         </script>
     {% endif %}
-
+        <div><img class ="hppic" src= "https://cdn.ramseysolutions.net/media/blog/budgeting/creating-a-budget/how-to-make-a-budget.jpg" alt="save"></div>
     </body>
 </html>

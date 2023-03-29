@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="BudgetAll">
+        <title>BudgetAll</title>
+        <!-- styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
+    </head>
+    <body>
+        <header>
+            <div class="navdiv">
+                <nav>
+                    <a href="{{ url_for('index') }}">Home</a> 💳
+                    <a href="{{ url_for('calculator')}}">Calculator</a>
+                </nav>
+            </div>
+            <br>
+        {% if user %}
+            <nav>
+                <a href="{{ url_for('set_balance') }}">Update Balance</a> 💳
+                <a href="{{ url_for('set_income') }}">Update Income</a> 💳
+                <a href="{{ url_for('view_expenses')}}">View Expenses</a> 💳
+                <a href="{{ url_for('total_income') }}">Update Balance</a> 💳
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </nav>
+            <br>
+        {% else %}
+            <nav>
+                <a href="{{ url_for('login') }}"> Sign In</a> 💳
+                <a href="{{ url_for('register') }}">Register</a>
+            </nav>
+        {% endif %}
+        </header>
+        <hr>
+        <h1>Welcome {% if user %}{{user}}{% endif %} to BudgetAll!</h1>
+        <hr>
+        <h2>Use this site for all your budgeting needs.</h2>
+
+        <div class="formwrapper">
+            <h2 class="title">Set Income</h2>
+            <form method="POST">
+                <div class="form-field">
+                    {{ form.income.label }} {{ form.income }}
+                    {% if form.income.errors %}
+                        <ul class="errors">
+                            {% for error in form.income.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                {{ form.submit }}
+            </form>
+        </div>
+        <div><img class ="hppic" src= "https://blog.planview.com/wp-content/uploads/2020/01/Lean-Budgeting-Part-One.jpg" alt="save"></div>
+    </body>
+</html>

@@ -1,31 +1,41 @@
 form {
-  background: white;
+  background: rgb(23, 149, 19);
   width: 100%;
 }
 
 .form-field {
   position: relative;
+  border-top-right-radius: 2px;
 }
 
 .title {
-  font-size: 1.7rem;
+  font-size: 1.9rem;
   font-weight: 300;
-  border-bottom: 1px solid #dbe3ec;
+  border-bottom: 3px solid #ffffff;
   padding: 5px;
   margin: 0 0 40px 0;
+  color:white;
 }
 
 .formwrapper {
   position: relative;
+<<<<<<< Updated upstream
   background: white;
+=======
+  background:rgb(23, 149, 19);;
+  margin: 0 auto;
+>>>>>>> Stashed changes
   width: 350px;
   box-shadow: 0 0 5px rgba(65, 67, 144, 0.1);
   padding: 10px;
+  border: black;
+  border-width: 2px;
+  border: 2px solid black;
 }
 
 label {
-  font-size: .9em;
-  color: green;
+  font-size: 1em;
+  color: rgb(255, 255, 255);
   margin-bottom: 3px;
   display: block;
   font-weight: 300;
@@ -35,16 +45,18 @@ input, textarea{
   padding: 10px 13px;
   margin-bottom: 15px;
   border-radius: 2px;
-  border: 1px solid #d4d9e3;
+  border: 3px solid #d4d9e3;
   font-weight: 200;
   color: #4d5060;
   font-family: 'Poppins', sans-serif;
   font-size: .9em;
+  border: 1px solid black;
 
 }
 
 input[type="text"]::placeholder {
   color: #d4d9e3;
+  border: 1px solid black;
 }
 
 input[type="text"]:hover,
@@ -59,25 +71,27 @@ input[type="text"]:focus,
 input[type="password"]:focus,
 textarea:focus {
   background: white;
-  border-color: blue;
+  border-color: rgb(0, 0, 0);
+  border-width: 1px;
   box-shadow: unset;
+  border: 1px solid black;
 }
 
 input[type="submit"] {
-  background: blue;
+  background: rgb(251, 251, 251);
   border: 0;
-  color: white;
+  color:black;
   border-radius: 2px;
   margin-top: 15px;
   font-weight: 400;
-  border: 1px solid blue;
+  border: 1.5px solid rgb(0, 0, 0);
   transition: all .3s ease-out;
 }
 
 input[type="submit"]:hover {
   cursor: pointer;
   background: white;
-  color: blue;
+  color: rgb(13, 168, 13);
 }
 
 .success-wrapper {
@@ -85,6 +99,7 @@ input[type="submit"]:hover {
   width: 350px;
   box-shadow: 0 0 5px rgba(65, 67, 144, 0.1);
   padding: 50px;
+  border: 1px solid black;
 }
 
 .errors {
@@ -95,11 +110,11 @@ input[type="submit"]:hover {
   right: -222px;
   top: 0;
   bottom: 0;
-  background: #fae7ea;
+  background: #c7abae;
   padding: 9px 15px;
   border-radius: 3px;
-  border: 1px solid #e1c5c5;
-  color: #8d7575;
+  border: 2px solid #831515;
+  color: #950909;
   width: 182px;
   text-align: center;
   height: fit-content;
