@@ -170,6 +170,12 @@ def set_income():
     else:
         return render_template("login.html")
 
+@app.route('/total_income', methods=['POST', 'GET'])
+def total_income():
+    if session.get('user'):
+        return render_template("total_income.html", user=session['user'])
+    return render_template("total_income.html")
+
 if __name__ == "__main__":
     app.run(host=os.getenv('IP', '127.0.0.1'), port=int(os.getenv('PORT', 5000)), debug=True)
 
