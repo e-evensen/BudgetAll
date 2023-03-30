@@ -35,7 +35,7 @@ hr{
       background-color: #16a31b; /* Green */
       border: none;
       color: rgb(8, 3, 15);
-      
+
       padding: 15px 32px;
       text-align: center;
       text-decoration: none;
@@ -43,8 +43,8 @@ hr{
       font-family: 'Courier New', Courier, monospace;
       font-size: 16px;
     }
-  
-  
+
+
   /* Style the input fields and buttons */
   input[type="text"], input[type="password"] {
     padding: 1px;
@@ -53,7 +53,7 @@ hr{
     margin-bottom: 10px;
     width: 100%;
   }
-  
+
   button {
     background-color: #020502;
     color: #fff;
@@ -64,19 +64,19 @@ hr{
     cursor: pointer;
     font-weight: bold;
   }
-  
+
   /* Style the login form header */
   .login nav{
     color: #000000;
     margin-bottom: 0px;
   }
-  
+
   /* Style error messages */
   .error-message {
     color: #ff0000;
     margin-top: 10px;
   }
-  
+
   /* Style success messages */
   .success-message {
     color: #008000;
@@ -86,6 +86,9 @@ hr{
   header {
     text-align: center;
   }
+<<<<<<< Updated upstream
+
+=======
 
   /* Table Styles */
 
@@ -156,11 +159,11 @@ hr{
     display:block;
     margin:0.2em auto;
     }
-    } 
+    }
 
 
 /* Input Styling for View Exp */
-input.inputExp[type=text], 
+input.inputExp[type=text],
 input.inputExp[type=number] {
   padding: 10px;
   border: 1px solid #ccc;
@@ -173,8 +176,17 @@ input.inputExp[type=number] {
   margin-bottom: 15px;
 }
 
-input.inputExp[type=text]:focus, 
+input.inputExp[type=text]:focus,
 input.inputExp[type=number]:focus {
   outline: none;
   border-color: #6ac5b9;
+}
+img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 400px;
+  max-width: 400px;
+  padding-top: 9px;
+  padding-bottom: 9px;;
 }
