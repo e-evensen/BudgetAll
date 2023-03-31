@@ -4,6 +4,7 @@ from wtforms.validators import Length, DataRequired, EqualTo, Email
 from wtforms import ValidationError
 from models import User
 from database import db
+from bcrypt import checkpw
 
 
 class RegisterForm(FlaskForm):
@@ -47,7 +48,12 @@ class LoginForm(FlaskForm):
 
     def validate_email(self, field):
         if db.session.query(User).filter_by(email=field.data).count() == 0:
-            raise ValidationError('Incorrect email or password.')
+            raise ValidationError('Incorrect email')
+
+    def validate_password(self, field):
+        user = db.session.query(User).filter_by(email=self.email.data).first()
+        if not user or not checkpw(field.data.encode('utf-8'), user.password):
+            raise ValidationError('Incorrect password.')
 
 
 class BalanceForm(FlaskForm):
