@@ -174,8 +174,13 @@ def create_app(config_name):
         @app.route('/total_income', methods=['POST', 'GET'])
         def total_income():
             if session.get('user'):
-                return render_template("total_income.html", user=session['user'])
-            return render_template("total_income.html")
+                user_id = session['user_id']
+                balance = Balance.query.filter_by(user_id=user_id).order_by(Balance.bal_at.desc()).first()
+                income = Income.query.filter_by(user_id=user_id).order_by(Income.inc_at.desc()).first()
+                income_value = round(float(income.inc) / 26, 2)
+                return render_template("total_income.html", user=session['user'], balance=balance.bal if balance else 0,
+                                       income=income_value if income else 0)
+            return render_template("login.html")
 
         return app
 
