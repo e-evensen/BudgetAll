@@ -66,6 +66,7 @@ class BalanceForm(FlaskForm):
 
     submit = SubmitField('Set Balance')
 
+
 class IncomeForm(FlaskForm):
     class Meta:
         csrf = False
