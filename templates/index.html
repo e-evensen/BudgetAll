@@ -24,8 +24,8 @@
                 <a href="{{ url_for('set_income') }}">Update Income</a> ||
                 <a href="{{ url_for('view_expenses')}}">View Expenses</a> ||
                 <a href="{{ url_for('total_income')}}">Income Calc</a> ||
-                <a href="{{ url_for('logout') }}">Logout</a> 
-                
+                <a href="{{ url_for('logout') }}">Logout</a>
+
             </nav>
             <br>
         {% else %}
@@ -43,8 +43,8 @@
 
     {% if user %}
         <p>Your balance is <span id="balance"></span></p>
-        <p>Your income is <span id="income"></span></p>
-        
+        <p>Your annual income is <span id="income"></span></p>
+
         <script>
             var bal = {{ balance.bal }};
             var balanceString = bal.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
