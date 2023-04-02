@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, DecimalField
-from wtforms.validators import Length, DataRequired, EqualTo, Email
+from wtforms.validators import Length, DataRequired, EqualTo, Email, InputRequired
 from wtforms import ValidationError
 from models import User
 from database import db
@@ -61,7 +61,7 @@ class BalanceForm(FlaskForm):
         csrf = False
 
     balance = DecimalField('Balance', [
-        DataRequired(message='Please enter a number.')
+        InputRequired(message='Please enter a number.')
     ])
 
     submit = SubmitField('Set Balance')
@@ -72,7 +72,7 @@ class IncomeForm(FlaskForm):
         csrf = False
 
     income = DecimalField('income', [
-        DataRequired(message='Please enter a number.')
+        InputRequired(message='Please enter a number.')
     ])
 
     submit = SubmitField('Set Income')
