@@ -73,6 +73,11 @@ class IncomeForm(FlaskForm):
 
     income = DecimalField('income', [
         InputRequired(message='Please enter a number.')
-    ])
+        ]
+    )
+
+    def validate_income(self, field):
+        if field.data < 0:
+            raise ValidationError('Income must be greater than or equal to zero.')
 
     submit = SubmitField('Set Income')
