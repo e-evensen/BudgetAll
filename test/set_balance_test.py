@@ -45,7 +45,7 @@ class TestBalancePage(BaseTestCase):
             )
             response = self.client.post(
                 '/set_balance',
-                data={'balance' : 100.0},
+                data={'balance': 100.0},
                 follow_redirects=True
             )
 
@@ -53,7 +53,7 @@ class TestBalancePage(BaseTestCase):
                 Balance.bal_at.desc()).first()
             assert balance.bal == 100.0
 
-    def test_balance_invalid_input(self):
+    def test_balance_blank_input(self):
         with self.client:
             self.client.post(
                 '/login', data=dict(
@@ -63,15 +63,32 @@ class TestBalancePage(BaseTestCase):
             )
             response = self.client.post(
                 '/set_balance',
-                data={'balance': 'test'},
+                data={'balance': ''},
                 follow_redirects=True
             )
 
             # Test that page never redirected away
-            self.assertIn(b'<h2 class="title">Set Balance</h2>\n', response.data)
+            assert b'<h2 class="title">Set Balance</h2>\n' in response.data
             # Test that balance is NOT updated in the database
             balance = Balance.query.filter_by(user_id=self.user.id).order_by(Balance.bal_at.desc()).first()
             assert balance.bal != 'test'
+
+    def test_navbar(self):
+        with self.client:
+            self.client.post(
+                '/login', data=dict(
+                    email='testing@test.com',
+                    password='test_password'
+                ), follow_redirects=True
+            )
+            response = self.client.get('/set_balance')
+            assert b'Home' in response.data
+            assert b'Calculator' in response.data
+            assert b'Update Balance' in response.data
+            assert b'Update Income' in response.data
+            assert b'View Expenses' in response.data
+            assert b'Total Income Calculator' in response.data
+            assert b'Logout' in response.data
 
 
 if __name__ == " __main__":
