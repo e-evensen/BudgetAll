@@ -1,8 +1,8 @@
 function calculateTotalIncome() {
-  var balance = document.getElementById("balance").value;
-  var income = document.getElementById("income").value;
-  var weeks = document.getElementById("weeks").value;
-  var totalIncome;
+  let balance = parseInt(document.getElementById("balance").value);
+  let income = parseInt(document.getElementById("income").value);
+  let weeks = parseInt(document.getElementById("weeks").value);
+  let totalIncome;
 
   // Validate input fields
   if (balance < 0 || isNaN(balance)) {
@@ -27,6 +27,8 @@ function calculateTotalIncome() {
   }
 
   // Calculate total income
+  const resultElement = document.getElementById("result");
   totalIncome = balance + (income * weeks * 2);
-  alert("Total Income for " + weeks + " weeks: $" + totalIncome.toFixed(2));
+  resultElement.innerHTML = "Total Income for " + weeks + " weeks: $" + totalIncome.toFixed(2);
+  //alert("Total Income for " + weeks + " weeks: $" + totalIncome.toFixed(2));
 }
