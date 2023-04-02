@@ -5,6 +5,7 @@ from models import User
 from models import Balance
 import bcrypt
 
+
 class BaseTestCase(TestCase):
     def create_app(self):
         return create_app('test')

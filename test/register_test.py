@@ -23,8 +23,8 @@ class TestRegister(BaseTestCase):
             assert user.username == 'test'
 
     def test_invalid_email(self):
-        with self.app.test_client() as client:
-            response = client.post('/register', data=dict(
+        with self.client:
+            response = self.client.post('/register', data=dict(
                 username='test',
                 email='t',
                 password='password123',
@@ -36,8 +36,8 @@ class TestRegister(BaseTestCase):
             assert b'Not a valid email address.' in response.data
 
     def test_confirm_password(self):
-        with self.app.test_client() as client:
-            response = client.post('/register', data=dict(
+        with self.client:
+            response = self.client.post('/register', data=dict(
                 username='test',
                 email='test@test.com',
                 password='password123',
@@ -49,8 +49,8 @@ class TestRegister(BaseTestCase):
             assert b'Passwords must match' in response.data
 
     def test_no_username(self):
-        with self.app.test_client() as client:
-            response = client.post('/register', data=dict(
+        with self.client:
+            response = self.client.post('/register', data=dict(
                 username='',
                 email='test@test.com',
                 password='password123',
@@ -62,15 +62,15 @@ class TestRegister(BaseTestCase):
             assert b'Field must be between 1 and 10 characters long.' in response.data
 
     def test_same_email(self):
-        with self.app.test_client() as client:
-            client.post('/register', data=dict(
+        with self.client:
+            self.client.post('/register', data=dict(
                 username='test',
                 email='test@test.com',
                 password='password123',
                 confirmPassword='password123'
             ), follow_redirects=True)
 
-            response = client.post('/register', data=dict(
+            response = self.client.post('/register', data=dict(
                 username='test1',
                 email='test@test.com',
                 password='password123',
