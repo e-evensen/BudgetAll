@@ -13,6 +13,8 @@ function calculate(cost, income) {
     }
 }
 
+module.exports = calculate;
+
 function displayResult() {
     const cost = document.forms["calcForm"]["cost"].value;
     const income = document.forms["calcForm"]["income"].value;
