@@ -8,6 +8,7 @@ from models import Balance, Expense, Income
 from forms import LoginForm, RegisterForm, BalanceForm, IncomeForm
 import bcrypt
 
+
 def create_app(config_name):
     app = Flask(__name__)
 
@@ -59,7 +60,8 @@ def create_app(config_name):
                     return redirect(url_for('index', balance=latest_balance))
                 return render_template("set_balance.html", user=session['user'], form=form)
             else:
-                return render_template("login.html")
+                login_form = LoginForm()
+                return render_template('login.html', form=login_form)
 
         @app.route('/register', methods=['POST', 'GET'])
         def register():
@@ -133,7 +135,8 @@ def create_app(config_name):
                 expenses = Expense.query.filter_by(user_id=session['user_id'])
                 return render_template("view_expenses.html", user=session['user'], expenses=expenses)
             else:
-                return render_template("view_expenses.html")
+                login_form = LoginForm()
+                return render_template('login.html', form=login_form)
 
         @app.route('/add_expenses', methods=['POST', 'GET'])
         def add_expenses():
@@ -152,7 +155,8 @@ def create_app(config_name):
                 expenses = Expense.query.filter_by(user_id=session['user_id'])
                 return render_template("view_expenses.html", user=session['user'], expenses=expenses)
             else:
-                return render_template("login.html")
+                login_form = LoginForm()
+                return render_template('login.html', form=login_form)
 
         @app.route("/set_income", methods=['POST', 'GET'])
         def set_income():
@@ -169,7 +173,8 @@ def create_app(config_name):
                     return redirect(url_for('index', income=latest_income))
                 return render_template("set_income.html", user=session['user'], form=form)
             else:
-                return render_template("login.html")
+                login_form = LoginForm()
+                return render_template('login.html', form=login_form)
 
         @app.route('/total_income', methods=['POST', 'GET'])
         def total_income():
@@ -180,7 +185,9 @@ def create_app(config_name):
                 income_value = round(float(income.inc) / 26, 2)
                 return render_template("total_income.html", user=session['user'], balance=balance.bal if balance else 0,
                                        income=income_value if income else 0)
-            return render_template("login.html")
+            else:
+                login_form = LoginForm()
+                return render_template('login.html', form=login_form)
 
         return app
 

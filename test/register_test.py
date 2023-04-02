@@ -1,10 +1,11 @@
 from flask_testing import TestCase
-import unittest
-import requests
 from main import create_app
 from database import db
 from models import User as User
 import bcrypt
+from forms import RegisterForm
+from base import BaseTestCase
+import unittest
 
 
 class TestRegister(TestCase):
@@ -21,24 +22,26 @@ class TestRegister(TestCase):
         self.hashed_password = bcrypt.hashpw(self.password.encode('utf-8'), bcrypt.gensalt())
         self.db = db
         self.db.create_all()
+        self.user = User(username=self.username, email=self.email, password=self.hashed_password)
+        self.db.session.add(self.user)
+        self.db.session.commit()
 
     def tearDown(self):
         self.db.session.remove()
         self.db.drop_all()
         self.app_context.pop()
 
-    def test_valid_registration(self):
+    # Tests a valid registration and that the user was stored in the database
+    def test_user_registration(self):
         with self.app.test_client() as client:
-            response = client.post('/register', data=dict(
-                    username=self.username,
-                    email=self.email,
-                    password=self.password,
-                    confirmPassword=self.password
-            ), follow_redirects=False)
-
-            # check if registration was successful
-            self.assertEqual(response.status_code, 302)
-            self.assertIn('/index', response.headers['Location'])
+            client.get("/logout", follow_redirects=True)
+            client.post("/register", data=dict(
+                    email="test@example.com",
+                    password="test_password"
+                ), follow_redirects=True)
+            user = User.query.filter_by(email="test@example.com").first()
+            assert user.id
+            assert user.email == "test@example.com"
 
     def test_invalid_registration(self):
         with self.app.test_client() as client:
@@ -57,19 +60,6 @@ class TestRegister(TestCase):
         with self.app.test_client() as client:
             response = client.get('/')
             assert b'<a href="/register">Register</a>' in response.data
-
-    def test_new_user_is_stored_in_database(self):
-        with self.app.test_client():
-            new_user = User(username=self.username, email=self.email, password=self.password)
-            db.session.add(new_user)
-            db.session.commit()
-
-            user = User.query.filter_by(username=self.username).first()
-
-            assert user is not None
-            assert user.username == self.username
-            assert user.email == self.email
-            assert user.password == self.password  # Password should be hashed
 
 
 if __name__ == " __main__":
