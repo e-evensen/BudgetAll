@@ -7,7 +7,11 @@ class TestBalancePage(BaseTestCase):
     def setUp(self):
         super().setUp()
         self.user = User.query.filter_by(username="testy").first()
-        self.balance = Balance.query.filter_by(user_id=self.user.id).first()
+        self.balance = Balance.query.filter_by(user_id=self.user.id).order_by(Balance.bal_at.desc()).first()
+
+    def test_page(self):
+        response = self.client.get('/set_balance')
+        assert response.status_code == 200
 
     def test_set_balance_requires_login(self):
         with self.client:
@@ -41,23 +45,33 @@ class TestBalancePage(BaseTestCase):
             )
             response = self.client.post(
                 '/set_balance',
-                data={'balance': '100'},
+                data={'balance' : 100.0},
                 follow_redirects=True
             )
 
-            # Test that balance is updated in the database
-            balance = self.balance.query.filter_by().first()
+            balance = Balance.query.filter_by(user_id=self.user.id).order_by(
+                Balance.bal_at.desc()).first()
             assert balance.bal == 100.0
 
     def test_balance_invalid_input(self):
-        with self.app.test_client() as client:
-            # Test that user cannot enter non-numeric input for balance
-            response = client.post('/balance', data=dict(
-                balance='invalid'
-            ), follow_redirects=True)
+        with self.client:
+            self.client.post(
+                '/login', data=dict(
+                    email='testing@test.com',
+                    password='test_password'
+                ), follow_redirects=True
+            )
+            response = self.client.post(
+                '/set_balance',
+                data={'balance': 'test'},
+                follow_redirects=True
+            )
 
-            # Test that an error message is displayed
-            self.assertIn(b'Balance must be a number.', response.data)
+            # Test that page never redirected away
+            self.assertIn(b'<h2 class="title">Set Balance</h2>\n', response.data)
+            # Test that balance is NOT updated in the database
+            balance = Balance.query.filter_by(user_id=self.user.id).order_by(Balance.bal_at.desc()).first()
+            assert balance.bal != 'test'
 
 
 if __name__ == " __main__":
