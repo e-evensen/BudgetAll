@@ -55,7 +55,8 @@ def create_app(config_name):
                     new_record = Balance(bal, session['user_id'])
                     db.session.add(new_record)
                     db.session.commit()
-                    latest_balance = Balance.query.filter_by(user_id=session['user_id']).order_by(Balance.bal_at.desc()).first()
+                    latest_balance = Balance.query.filter_by(user_id=session['user_id']).order_by(
+                        Balance.bal_at.desc()).first()
 
                     return redirect(url_for('index', balance=latest_balance))
                 return render_template("set_balance.html", user=session['user'], form=form)
@@ -83,8 +84,13 @@ def create_app(config_name):
                 session['user_id'] = new_user.id  # access id value from user model of this newly added user
                 # give new users 0 balance
                 bal = 0
-                new_record = Balance(bal, session['user_id'])
-                db.session.add(new_record)
+                new_balance = Balance(bal, session['user_id'])
+                db.session.add(new_balance)
+                db.session.commit()
+                # Give new users 0 income
+                inc = 0
+                new_income = Income(inc, session['user_id'])
+                db.session.add(new_income)
                 db.session.commit()
                 # show user dashboard view
                 return redirect(url_for('index'))
@@ -142,7 +148,7 @@ def create_app(config_name):
         def add_expenses():
             if request.method == 'POST':
                 exp_name = request.form['expense_description']
-                exp = request.form['expense_ammount']
+                exp = request.form['expense_amount']
                 exp_cat = request.form['expense_category']
                 new_exp = Expense(exp_name=exp_name,
                                   exp=exp,
@@ -168,7 +174,8 @@ def create_app(config_name):
                     new_record = Income(inc, session['user_id'])
                     db.session.add(new_record)
                     db.session.commit()
-                    latest_income = Income.query.filter_by(user_id=session['user_id']).order_by(Income.inc_at.desc()).first()
+                    latest_income = Income.query.filter_by(user_id=session['user_id']).order_by(
+                        Income.inc_at.desc()).first()
 
                     return redirect(url_for('index', income=latest_income))
                 return render_template("set_income.html", user=session['user'], form=form)
