@@ -13,8 +13,12 @@ class BaseTestCase(TestCase):
     def setUp(self):
         db.create_all()
         password = "test_password"
-        password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-        db.session.add(User("testy", "testing@test.com", password))
+        hpassword = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        user = User("testy", "testing@test.com", hpassword)
+        db.session.add(user)
+        db.session.flush()
+        balance = Balance(bal=1000.0, user_id=user.id)
+        db.session.add(balance)
         db.session.commit()
 
     def tearDown(self):
