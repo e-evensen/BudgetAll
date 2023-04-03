@@ -36,6 +36,7 @@ class Expense(db.Model):
     exp_time = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
+
 class Income(db.Model):
     id = db.Column("id", db.Integer, primary_key=True)
     inc = db.Column("inc", db.Float)
