@@ -36,6 +36,13 @@ class Expense(db.Model):
     exp_time = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
+    def __init__(self, exp_name, exp, exp_cat, user_id):
+        self.exp_name = exp_name
+        self.exp = exp
+        self.exp_cat = exp_cat
+        self.user_id = user_id
+        self.exp_time = datetime.now()
+
 
 class Income(db.Model):
     id = db.Column("id", db.Integer, primary_key=True)

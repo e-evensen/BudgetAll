@@ -153,8 +153,7 @@ def create_app(config_name):
                 new_exp = Expense(exp_name=exp_name,
                                   exp=exp,
                                   exp_cat=exp_cat,
-                                  user_id=session['user_id'],
-                                  exp_time=datetime.now()
+                                  user_id=session['user_id']
                                   )
                 db.session.add(new_exp)
                 db.session.commit()
