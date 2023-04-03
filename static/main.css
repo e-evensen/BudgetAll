@@ -159,7 +159,8 @@ hr{
 
 /* Input Styling for View Exp */
 input.inputExp[type=text],
-input.inputExp[type=number] {
+input.inputExp[type=number],
+select {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -172,7 +173,8 @@ input.inputExp[type=number] {
 }
 
 input.inputExp[type=text]:focus,
-input.inputExp[type=number]:focus {
+input.inputExp[type=number]:focus,
+select:focus {
   outline: none;
   border-color: #6ac5b9;
 }

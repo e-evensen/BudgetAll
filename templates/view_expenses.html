@@ -9,6 +9,9 @@
         <!-- styles -->
         <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='expense.js') }}"></script>
+
+
 </head>
     <body>
         <header>
@@ -38,7 +41,7 @@
         </header>
 
         <h1>View Expenses</h1>
-        <button id="add-expense-btn" class="buttonExp" type="button">Add Expense</button>
+        <button id="add-expense-btn" class="buttonExp" onclick="addExpenseModal()" type="button">Add Expense</button>
 
         <div id="add-expense-modal" style="display: none;"> 
             <form action="{{ url_for('add_expenses') }}" method="post">
@@ -46,43 +49,34 @@
                 <input type="text" class = "inputExp" name="expense_description" required><br>
                 <label>Expense Amount:</label>
                 <input type="number" class = "inputExp" step="0.01" name="expense_amount" min="0"><br>
-                <label>Expense Category:</label>
-                <input type="text" class = "inputExp" name="expense_category" required><br>
+                <label>Expense Priority:</label>
+                <select name="expense_category">
+                <option value="Essential">Essential</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+                </select><br>
                 <button type="submit" class="buttonExp">Create Expense</button>
             </form>
         </div>
 
-        <script>
-            $(document).ready(function() {
-                $('#add-expense-btn').click(function() {
-                    $('#add-expense-modal').show();
-                });
-
-                $('#add-expense-modal').click(function(e) {
-                    if (e.target.id == 'add-expense-modal') {
-                        $(this).hide();
-                    }
-                });
-            });
-        </script>
+        
 
         {% if expenses %}
         <div class="table-wrapper">
             <table class="fl-table">
                 <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Amount</th>
-                    <th>Category</th>
+                    <th>Priority</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for expense in expenses %}
                 <tr>
-                    <td>{{ expense.id }}</td>
                     <td>{{ expense.exp_name }}</td>
-                    <td>{{ expense.exp }}</td>
+                    <td>$ {{ expense.exp }}</td>
                     <td>{{ expense.exp_cat }}</td>
                 </tr>
                 {% endfor %}
