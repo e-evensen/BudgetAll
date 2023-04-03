@@ -147,9 +147,9 @@ def create_app(config_name):
         @app.route('/add_expenses', methods=['POST', 'GET'])
         def add_expenses():
             if request.method == 'POST':
-                exp_name = request.form['expense_description']
-                exp = request.form['expense_amount']
-                exp_cat = request.form['expense_category']
+                exp_name = request.form.get('expense_description')
+                exp = request.form.get('expense_amount')
+                exp_cat = request.form.get('expense_category')
                 new_exp = Expense(exp_name=exp_name,
                                   exp=exp,
                                   exp_cat=exp_cat,
