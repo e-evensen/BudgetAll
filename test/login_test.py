@@ -51,6 +51,13 @@ class Login(BaseTestCase):
             )
             assert b'Sign In' in response.data
 
+    def test_navbar(self):
+        response = self.client.get('/calculator')
+        assert b'Home' in response.data
+        assert b'Calculator' in response.data
+        assert b'Sign In' in response.data
+        assert b'Register' in response.data
+
 
 if __name__ == " __main__":
     unittest.main()
