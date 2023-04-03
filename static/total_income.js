@@ -1,34 +1,40 @@
-function calculateTotalIncome() {
-  let balance = parseInt(document.getElementById("balance").value);
-  let income = parseInt(document.getElementById("income").value);
-  let weeks = parseInt(document.getElementById("weeks").value);
-  let totalIncome;
-
-  // Validate input fields
-  if (balance < 0 || isNaN(balance)) {
-    document.getElementById("balanceError").style.display = "block";
-    return;
+function calculate(balance, income, weeks) {
+  if (balance < 0 || isNaN(balance) || balance === "") {
+    return "badBal";
+  } else if (income < 0 || isNaN(income) || income === "") {
+    return "badInc";
+  } else if (weeks <= 0 || isNaN(weeks) || weeks === "") {
+    return "badWks";
   } else {
-    document.getElementById("balanceError").style.display = "none";
+    return balance + ((income / 2) * weeks);
   }
+}
 
-  if (income < 0 || isNaN(income)) {
-    document.getElementById("incomeError").style.display = "block";
-    return;
-  } else {
-    document.getElementById("incomeError").style.display = "none";
-  }
+module.exports = calculate;
 
-  if (weeks < 1 || isNaN(weeks)) {
-    document.getElementById("weeksError").style.display = "block";
-    return;
-  } else {
-    document.getElementById("weeksError").style.display = "none";
-  }
-
-  // Calculate total income
+function displayResult() {
+  const balance = parseFloat(document.getElementById("balance").value);
+  const income = parseFloat(document.getElementById("income").value);
+  const weeks = parseFloat(document.getElementById("weeks").value);
   const resultElement = document.getElementById("result");
-  totalIncome = balance + (income * weeks * 2);
-  resultElement.innerHTML = "Total Income for " + weeks + " weeks: $" + totalIncome.toFixed(2);
-  //alert("Total Income for " + weeks + " weeks: $" + totalIncome.toFixed(2));
+
+  const result = calculate(balance, income, weeks);
+
+  if (result === "badBal") {
+    resultElement.innerHTML =
+      "Please enter a valid, non-negative number for your balance.";
+  } else if (result === "badInc") {
+    resultElement.innerHTML =
+      "Please enter a valid, non-negative number for your income.";
+  } else if (result === "badWks") {
+    resultElement.innerHTML =
+      "Please enter a valid, positive number for the number of weeks.";
+  } else {
+    let frmtResult = result.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD"
+    });
+    resultElement.innerHTML =
+      "Total balance after " + weeks + " weeks: " + frmtResult;
+  }
 }
