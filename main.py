@@ -1,7 +1,7 @@
 from datetime import datetime, date
 import os
 from flask import Flask
-from flask import render_template, request, redirect, url_for, session
+from flask import render_template, request, redirect, url_for, session, flash
 from database import db
 from models import User as User
 from models import Balance, Expense, Income
@@ -149,6 +149,9 @@ def create_app(config_name):
             if request.method == 'POST':
                 exp_name = request.form.get('expense_description')
                 exp = request.form.get('expense_amount')
+                if float(exp) < 0:
+                    flash('Expense amount cannot be negative')
+                    return redirect(url_for('view_expenses'))
                 exp_cat = request.form.get('expense_category')
                 new_exp = Expense(exp_name=exp_name,
                                   exp=exp,
