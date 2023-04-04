@@ -71,7 +71,7 @@ class TestBalancePage(BaseTestCase):
             assert b'<h2 class="title">Set Balance</h2>\n' in response.data
             # Test that balance is NOT updated in the database
             balance = Balance.query.filter_by(user_id=self.user.id).order_by(Balance.bal_at.desc()).first()
-            assert balance.bal != 'test'
+            assert balance.bal != ''
 
     def test_navbar(self):
         with self.client:
