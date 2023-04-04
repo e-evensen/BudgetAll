@@ -8,6 +8,10 @@ class TestExpense(BaseTestCase):
         super().setUp()
         self.user = User.query.filter_by(username="testy").first()
 
+    def test_page(self):
+        response = self.client.get('/view_expenses')
+        assert response.status_code == 200
+
     def test_expense_requires_login(self):
         with self.client:
             response = self.client.get('/view_expenses', follow_redirects=True)

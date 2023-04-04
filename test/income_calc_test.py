@@ -3,6 +3,10 @@ import unittest
 
 
 class TestCalculator(BaseTestCase):
+    def test_page(self):
+        response = self.client.get('/total_income')
+        assert response.status_code == 200
+
     def test_page_requires_login(self):
         with self.client:
             response = self.client.get('/total_income', follow_redirects=True)
