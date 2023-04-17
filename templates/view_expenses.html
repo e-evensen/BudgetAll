@@ -14,31 +14,8 @@
 
 </head>
     <body>
-        <header>
-            <div class="navdiv">
-            <nav>
-                <a href="{{ url_for('index') }}">Home</a> 💰
-                <a href="{{ url_for('calculator')}}">Calculator</a>
-            </nav>
-            </div>
-            <br>
-        {% if user %}
-            <nav>
-                <a href="{{ url_for('set_balance') }}">Update Balance</a> 💰
-                <a href="{{ url_for('set_income') }}">Update Income</a> 💰
-                <a href="{{ url_for('view_expenses')}}">View Expenses</a> 💰
-                <a href="{{ url_for('total_income') }}">Total Income Calculator</a> 💰
-                <a href="{{ url_for('logout') }}">Logout</a> 💰
-
-            </nav>
-            <br>
-        {% else %}
-            <nav>
-                <a href="{{ url_for('login') }}"> Sign In</a> 💰
-                <a href="{{ url_for('register') }}">Register</a>
-            </nav>
-        {% endif %}
-        </header>
+        {% extends "template.html" %}
+        {% block content %}
 
         <h1>View Expenses</h1>
         <button id="add-expense-btn" class="buttonExp" onclick="addExpenseModal()" type="button">Add Expense</button>
@@ -84,5 +61,6 @@
             </table>
         </div>
         {% endif %}
+        {% endblock %}
     </body>
 </html>

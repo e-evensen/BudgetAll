@@ -7,51 +7,29 @@
     <script src="{{ url_for('static', filename='total_income.js') }}"></script>
 </head>
 
-<body>
-    <header>
-        <div class="navdiv">
-            <nav>
-                <a href="{{ url_for('index') }}">Home</a> 💰
-                <a href="{{ url_for('calculator')}}">Calculator</a>
-            </nav>
-        </div>
-        <br>
-    {% if user %}
-        <nav>
-            <a href="{{ url_for('set_balance') }}">Update Balance</a> 💰
-            <a href="{{ url_for('set_income') }}">Update Income</a> 💰
-            <a href="{{ url_for('view_expenses')}}">View Expenses</a> 💰
-            <a href="{{ url_for('total_income') }}">Total Income Calculator</a> 💰
-            <a href="{{ url_for('logout') }}">Logout</a> 💰
-
-        </nav>
-        <br>
-    {% else %}
-        <nav>
-            <a href="{{ url_for('login') }}"> Sign In</a> 💰
-            <a href="{{ url_for('register') }}">Register</a>
-        </nav>
-    {% endif %}
-    </header>
-    <hr>
-    <div class="totalIncome">
-        <h1>Total Income Calculator</h1>
+    <body>
+        {% extends "template.html" %}
+        {% block content %}
         <hr>
-        <form name = "totalIncome">
-            <label for="balance">Current Balance:</label>
-            <input type="number" id="balance" name="balance" value="{{ balance }}"><br><br><br>
+        <div class="totalIncome">
+            <h1>Total Income Calculator</h1>
+            <hr>
+            <form name = "totalIncome">
+                <label for="balance">Current Balance:</label>
+                <input type="number" id="balance" name="balance" value="{{ balance }}"><br><br><br>
 
-            <label for="income">Bi-Weekly Income:</label>
-            <input type="number" id="income" name="income" value="{{ income }}"><br><br><br>
+                <label for="income">Bi-Weekly Income:</label>
+                <input type="number" id="income" name="income" value="{{ income }}"><br><br><br>
 
-            <label for="weeks">Number of Weeks:</label>
-            <input type="number" id="weeks" name="weeks"><br><br><br>
+                <label for="weeks">Number of Weeks:</label>
+                <input type="number" id="weeks" name="weeks"><br><br><br>
 
-            <button type="button" onclick="displayResult()" >Calculate Total Income</button>
-          </form>
+                <button type="button" onclick="displayResult()" >Calculate Total Income</button>
+            </form>
 
-      <div id="result"></div>
-      <img class ="hppic" src= "https://www.i4ce.org/wp-content/uploads/2022/01/Budget-vert.jpg" alt="save">
-    </div>
-</body>
+        <div id="result"></div>
+        <img class ="hppic" src= "https://www.i4ce.org/wp-content/uploads/2022/01/Budget-vert.jpg" alt="save">
+        </div>
+        {% endblock %}
+    </body>
 </html>
