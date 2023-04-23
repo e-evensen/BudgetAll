@@ -8,6 +8,9 @@
         <title>BudgetAll</title>
         <!-- styles -->
         <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
     <body>
         {% extends "template.html" %}
@@ -18,21 +21,30 @@
 
         <h2>Use this site for all your budgeting needs.</h2>
 
-    {% if user %}
-        <p>Your balance is <span id="balance"></span></p>
-        <p>Your annual income is <span id="income"></span></p>
+        {% if user %}
+            <p>Your balance is <span id="balance"></span></p>
+            <p>Your annual income is <span id="income"></span></p>
 
-        <script>
-            var bal = {{ balance.bal }};
-            var balanceString = bal.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-            document.getElementById('balance').innerHTML = balanceString;
-        </script>
-        <script>
-            var inc = {{ income.inc }};
-            var incomeString = inc.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-            document.getElementById('income').innerHTML = incomeString;
-        </script>
-    {% endif %}
-    {% endblock %}
+            <script>
+                var bal = {{ balance.bal }};
+                var balanceString = bal.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                document.getElementById('balance').innerHTML = balanceString;
+            </script>
+            <script>
+                var inc = {{ income.inc }};
+                var incomeString = inc.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                document.getElementById('income').innerHTML = incomeString;
+            </script>
+            {% if chart %}
+                <div id="chart"></div>
+                <script>
+                    var chart = {{ chart|safe }};
+                    var embed_opt = {"mode": "vega-lite"};
+                    vegaEmbed('#chart', chart, embed_opt);
+                </script>
+            {% endif %}
+        {% endif %}
+
+        {% endblock %}
     </body>
 </html>
