@@ -1,12 +1,16 @@
 from datetime import datetime, date
 import os
-from flask import Flask
+from flask import Flask, jsonify
 from flask import render_template, request, redirect, url_for, session, flash
 from database import db
 from models import User as User
 from models import Balance, Expense, Income
 from forms import LoginForm, RegisterForm, BalanceForm, IncomeForm
 import bcrypt
+import altair as alt
+import pandas as pd
+from datetime import datetime, timedelta
+from sqlalchemy import create_engine
 
 
 def create_app(config_name):
@@ -42,7 +46,17 @@ def create_app(config_name):
                 else:
                     balance = Balance.query.filter_by(user_id=session['user_id']).order_by(Balance.bal_at.desc()).first()
                     income = Income.query.filter_by(user_id=session['user_id']).order_by(Income.inc_at.desc()).first()
-                    return render_template('index.html', user=session['user'], balance=balance, income=income)
+                    balance_history = Balance.query.filter_by(user_id=session['user_id']).all()
+                    df = pd.DataFrame([(b.bal_at, b.bal) for b in balance_history], columns=['date', 'balance'])
+                    chart = alt.Chart(df).mark_line().encode(
+                        x='date:T',
+                        y='balance:Q'
+                    ).properties(
+                        width=600,
+                        height=300
+                    ).interactive()
+                    return render_template('index.html', user=session['user'], balance=balance, income=income,
+                                           chart=chart.to_json())
             return render_template("index.html")
 
         @app.route("/set_balance", methods=['POST', 'GET'])
@@ -194,6 +208,18 @@ def create_app(config_name):
                 income_value = round(float(income.inc) / 26, 2)
                 return render_template("total_income.html", user=session['user'], balance=balance.bal if balance else 0,
                                        income=income_value if income else 0)
+            else:
+                login_form = LoginForm()
+                return render_template('login.html', form=login_form)
+
+        @app.route('/balance_chart')
+        def balance_chart():
+            if session.get('user'):
+                user_id = session['user_id']
+                balances = Balance.query.filter_by(user_id=user_id).all()
+                data = [{'bal': b.bal, 'bal_at': b.bal_at} for b in balances]
+                return render_template("balance_chart.html", data=data)
+                return render_template('balance_chart.html', data=data)
             else:
                 login_form = LoginForm()
                 return render_template('login.html', form=login_form)
