@@ -1,21 +1,46 @@
 body {
-    padding: 30px 30px;
-    text-align: center;
-    background-color: #82f9f7dc;
-    font-family: Arial, sans-serif;
-    }
-h1{
-    color: #008000;}
-h2{
-    color:rgb(26, 177, 18);
+  padding: 30px 30px;
+  text-align: center;
+  background-color: #ADD8E6;
+  font-family: Arial, sans-serif;
 }
-hr{
+
+header {
+  background-color: #000080;
+  margin-left: auto;
+  margin-right: auto;
+  margin: 0;
+}
+
+.mainNav {
+  text-decoration: none;
+  color: #FFD700;
+  background-color: #663399;
+  border: 1px solid #663399;
+}
+
+.mainNav:hover {
+  background: white;
+  color: #000080;
+}
+
+.mainNav:active {
+  background: white;
+  color: #000080;
+}
+
+h1 {
+  color: #007F3F;}
+h2 {
+    color:#007F3F;
+}
+hr {
     padding: 2px;
-    border-color: rgb(3, 164, 16);
+    border-color: #007F3F;
     border-width: 2px;
     border-top-right-radius: 2px;
     border-style: groove;
-    background-color: #008000;
+    background-color: #007F3F;
 }
   /* Center login form on the page */
   .login-form {
@@ -26,13 +51,12 @@ hr{
     height: 100vh;
   }
   .calc {
-    text-align: left;
-    font-family: 'Courier New', Courier, monospace;
-    color: #16a31b;
+    text-align: center;
+    color: #007F3F;
     font-weight:bold;
   }
   .buttonCalc{
-      background-color: #16a31b; /* Green */
+      background-color: #007F3F; /* Green */
       border: none;
       color: rgb(8, 3, 15);
 
@@ -40,7 +64,6 @@ hr{
       text-align: center;
       text-decoration: none;
       display: inline-block;
-      font-family: 'Courier New', Courier, monospace;
       font-size: 16px;
     }
 
@@ -79,7 +102,7 @@ hr{
 
   /* Style success messages */
   .success-message {
-    color: #008000;
+    color: #007F3F;
     margin-top: 10px;
   }
 
@@ -116,7 +139,7 @@ hr{
 
 .fl-table thead th {
   color: #ffffff;
-  background: #4FC3A1;
+  background: #ADD8E6;
 }
 
 .fl-table tr:nth-child(even) {
@@ -128,17 +151,21 @@ hr{
   display:inline-block;
   padding:0.2em 1.45em;
   margin:0.1em;
-  border:0.15em solid #CCCCCC;
+  border: 1px solid #663399;
   box-sizing: border-box;
   text-decoration:none;
-  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 18px;
   font-weight:400;
-  color:#000000;
-  background-color:#CCCCCC;
+  color: #FFD700;
+  background: #663399;
   text-align:center;
   position:relative;
   width: auto;
+}
+
+.buttonExp:hover{
+  background: white;
+  color: #000080;
 }
 
 .buttonExp:hover{
