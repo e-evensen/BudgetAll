@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="BudgetAll">
+        <title>BudgetAll</title>
+        <!-- styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+    <body>
+        {% extends "template.html" %}
+        {% block content %}
+
+        <h1>Welcome {% if user %}{{user}}{% endif %} to BudgetAll!</h1>
+        <hr>
+
+        <h2>Purchase Page</h2>
+
+    {% if user %}
+    {% endif %}
+    {% endblock %}
+    </body>
+</html>

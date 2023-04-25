@@ -197,6 +197,14 @@ def create_app(config_name):
             else:
                 login_form = LoginForm()
                 return render_template('login.html', form=login_form)
+        
+        @app. route('/purchases')
+        def purchases():
+            if session.get('user'):
+                return render_template("purchases.html", user=session['user'])
+            else:
+                login_form = LoginForm()
+                return render_template('login.html', form=login_form)
 
         return app
 
