@@ -18,8 +18,27 @@
 
         <h2>Purchase Page</h2>
         <p align="center"><a href=add_purchases ><button type="button" class="buttonExp">Add Purchases</button></a></p>
-    {% if user %}
-    {% endif %}
+
+        {% if purchases %}
+        <div class="table-wrapper">
+            <table class="fl-table">
+                <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for purchase in purchases %}
+                <tr>
+                    <td>{{ purchase.pur_name }}</td>
+                    <td>$ {{ purchase.pur }}</td>
+                </tr>
+                {% endfor %}
+                <tbody>
+            </table>
+        </div>
+        {% endif %}
     {% endblock %}
     </body>
 </html>
