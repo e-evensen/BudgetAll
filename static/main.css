@@ -121,8 +121,9 @@ hr {
   font-weight: normal;
   border: none;
   border-collapse: collapse;
-  width: 100%;
+  width: auto;
   max-width: 100%;
+  margin: 0 auto;
   white-space: nowrap;
   background-color: white;
 }
@@ -214,7 +215,7 @@ img{
   padding-top: 9px;
   padding-bottom: 9px;;
 }
-
+/* Styling for Sortable Table Headers */
 .table-sortable th {
 	cursor: pointer;
 }
@@ -236,3 +237,50 @@ img{
 .table-sortable .th-sort-desc {
 	background: rgba(0, 0, 0, 0.1);
 }
+/* Styling for table buttons */
+.editButton {
+	box-shadow:inset 0px 0px 0px -1px #9acc85;
+	background:linear-gradient(to bottom, #74ad5a 5%, #68a54b 100%);
+	background-color:#74ad5a;
+	border:1px solid #3b6e22;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:13px;
+	padding:4px 0px;
+	text-decoration:none;
+  width: 50px;
+}
+.editButton:hover {
+	background:linear-gradient(to bottom, #68a54b 5%, #74ad5a 100%);
+	background-color:#68a54b;
+}
+.editButton:active {
+	position:relative;
+	top:1px;
+}
+
+.deleteButton {
+	box-shadow:inset 0px 0px 0px -1px #cc8585;
+	background:linear-gradient(to bottom, #ad5a5a 5%, #a54b4b 100%);
+	background-color:#ad5a5a;
+	border:1px solid #6e2222;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:13px;
+	padding:4px 0px;
+	text-decoration:none;
+  width: 50px;
+}
+.deleteButton:hover {
+	background:linear-gradient(to bottom, #a54b4b 5%, #ad5a5a 100%);
+	background-color:#a54b4b;
+}
+.deleteButton:active {
+	position:relative;
+	top:1px;
+}
+
