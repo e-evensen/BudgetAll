@@ -138,7 +138,7 @@ hr {
 }
 
 .fl-table thead th {
-  color: #ffffff;
+  color: #000000;
   background: #ADD8E6;
 }
 
@@ -213,4 +213,26 @@ img{
   max-width: 400px;
   padding-top: 9px;
   padding-bottom: 9px;;
+}
+
+.table-sortable th {
+	cursor: pointer;
+}
+
+.table-sortable .th-sort-asc::after {
+	content: "\25b4";
+}
+
+.table-sortable .th-sort-desc::after {
+	content: "\25be";
+}
+
+.table-sortable .th-sort-asc::after,
+.table-sortable .th-sort-desc::after {
+	margin-left: 5px;
+}
+
+.table-sortable .th-sort-asc,
+.table-sortable .th-sort-desc {
+	background: rgba(0, 0, 0, 0.1);
 }
