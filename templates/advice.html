@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
+</head>
+    <body>
+        {% extends "template.html" %}
+        {% block content %}
+
+        <h1>Financial Advice</h1>
+        <hr>
+
+        <h2>Spending</h2>
+        {% endblock %}
+    </body>
+</html>

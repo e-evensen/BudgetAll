@@ -12,11 +12,8 @@
     <body>
         {% extends "template.html" %}
         {% block content %}
-
-        <h1>Welcome {% if user %}{{user}}{% endif %} to BudgetAll!</h1>
-        <hr>
-
-        <h2>Add Purchases Page</h2>
+        
+        <h1>Add Purchases</h1>
 
         <form action="{{ url_for('add_purchases') }}" method="post">
             <label>Product Name:</label>
