@@ -274,6 +274,8 @@ img{
 	padding:4px 0px;
 	text-decoration:none;
   width: 50px;
+  text-align: center;
+  
 }
 .deleteButton:hover {
 	background:linear-gradient(to bottom, #a54b4b 5%, #ad5a5a 100%);
@@ -283,4 +285,3 @@ img{
 	position:relative;
 	top:1px;
 }
-

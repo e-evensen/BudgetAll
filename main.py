@@ -198,6 +198,16 @@ def create_app(config_name):
                 login_form = LoginForm()
                 return render_template('login.html', form=login_form)
         
+        @app.route('/delete/<int:id>', methods=['POST', 'GET'])
+        def delete(id):
+            expense_to_delete = Expense.query.get_or_404(id)
+
+            db.session.delete(expense_to_delete)
+            db.session.commit()
+            flash("Expense Deleted Successfully")
+            expenses = Expense.query.filter_by(user_id=session['user_id'])
+            return render_template("view_expenses.html", user=session['user'], expenses=expenses)
+
         @app. route('/purchases')
         def purchases():
             if session.get('user'):
