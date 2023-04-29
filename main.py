@@ -266,7 +266,9 @@ def create_app(config_name):
             
         @app.route('/advice')
         def advice():
-            return render_template('advice.html')
+            if session.get('user'):
+                return render_template("advice.html", user=session['user'])
+            return render_template("advice.html")
 
         return app
 
