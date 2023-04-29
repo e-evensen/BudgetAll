@@ -63,13 +63,17 @@ def create_app(config_name):
         @app.route("/index")
         def index():
             if session.get('user'):
+                # grabs balance and income from last submitted entry
                 balance = Balance.query.filter_by(user_id=session['user_id']).order_by(Balance.bal_at.desc()).first()
                 income = Income.query.filter_by(user_id=session['user_id']).order_by(Income.inc_at.desc()).first()
+                # grabs all balance history to create chart
                 balance_history = Balance.query.filter_by(user_id=session['user_id']).order_by(Balance.bal_at.asc()).all()
+                # create dataframe for use with altair
                 df = pd.DataFrame([(b.bal_at, b.bal) for b in balance_history], columns=['date', 'balance'])
 
                 time_range = request.args.get('time_range')
 
+                # create filters for each dropdown option, pandas date offset makes this very easy
                 if time_range == '1_week':
                     start_date = pd.Timestamp.now() - pd.DateOffset(weeks=1)
                     end_date = pd.Timestamp.now()
@@ -85,7 +89,10 @@ def create_app(config_name):
                 else:
                     start_date = df['date'].min()
                     end_date = df['date'].max()
+
+                # call generate_chart to create chart
                 chart = generate_chart(df, start_date, end_date)
+                # turn chart data into json for html formatting
                 chart_json = chart.to_json()
                 return render_template('index.html', user=session['user'], balance=balance, income=income,
                                        chart=chart_json)
