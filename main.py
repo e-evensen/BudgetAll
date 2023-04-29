@@ -263,6 +263,10 @@ def create_app(config_name):
             else:
                 login_form = LoginForm()
                 return render_template('login.html', form=login_form)
+            
+        @app.route('/advice')
+        def advice():
+            return render_template('advice.html')
 
         return app
 
