@@ -1,6 +1,5 @@
-from datetime import datetime, date
 import os
-from flask import Flask, jsonify
+from flask import Flask
 from flask import render_template, request, redirect, url_for, session, flash
 from database import db
 from models import User as User
@@ -9,18 +8,34 @@ from forms import LoginForm, RegisterForm, BalanceForm, IncomeForm
 import bcrypt
 import altair as alt
 import pandas as pd
-from datetime import datetime, timedelta
-from sqlalchemy import create_engine
 
 
-def generate_chart(data):
-    chart = alt.Chart(data).mark_line().encode(
+def generate_chart(df, start_date, end_date):
+    # Filter the dataframe based on the selected date range
+    df = df[(df['date'] >= start_date) & (df['date'] <= end_date)]
+
+    # Define the selection for date range
+    date_range_selector = alt.selection(type='interval', encodings=['x'])
+
+    # Create the line chart
+    line_chart = alt.Chart(df).mark_line().encode(
         x='date:T',
-        y='balance:Q'
-    ).properties(
+        y='balance:Q',
+        tooltip=['date:T', 'balance:Q']
+    ).add_selection(date_range_selector).transform_filter(date_range_selector)
+
+    # Create the area chart to show the selected date range
+    area_chart = alt.Chart(df).mark_area(opacity=0.3).encode(
+        x='date:T',
+        y='balance:Q',
+    ).transform_filter(date_range_selector)
+
+    # Combine the line chart and area chart
+    chart = (line_chart + area_chart).properties(
         width=600,
-        height=300
-    ).interactive()
+        height=400,
+        title='Account Balance'
+    )
 
     return chart
 
@@ -50,9 +65,27 @@ def create_app(config_name):
             if session.get('user'):
                 balance = Balance.query.filter_by(user_id=session['user_id']).order_by(Balance.bal_at.desc()).first()
                 income = Income.query.filter_by(user_id=session['user_id']).order_by(Income.inc_at.desc()).first()
-                balance_history = Balance.query.filter_by(user_id=session['user_id']).all()
+                balance_history = Balance.query.filter_by(user_id=session['user_id']).order_by(Balance.bal_at.asc()).all()
                 df = pd.DataFrame([(b.bal_at, b.bal) for b in balance_history], columns=['date', 'balance'])
-                chart = generate_chart(df)
+
+                time_range = request.args.get('time_range')
+
+                if time_range == '1_week':
+                    start_date = pd.Timestamp.now() - pd.DateOffset(weeks=1)
+                    end_date = pd.Timestamp.now()
+                elif time_range == '1_month':
+                    start_date = pd.Timestamp.now() - pd.DateOffset(months=1)
+                    end_date = pd.Timestamp.now()
+                elif time_range == '6_months':
+                    start_date = pd.Timestamp.now() - pd.DateOffset(months=6)
+                    end_date = pd.Timestamp.now()
+                elif time_range == '1_year':
+                    start_date = pd.Timestamp.now() - pd.DateOffset(years=1)
+                    end_date = pd.Timestamp.now()
+                else:
+                    start_date = df['date'].min()
+                    end_date = df['date'].max()
+                chart = generate_chart(df, start_date, end_date)
                 chart_json = chart.to_json()
                 return render_template('index.html', user=session['user'], balance=balance, income=income,
                                        chart=chart_json)
@@ -210,7 +243,7 @@ def create_app(config_name):
             else:
                 login_form = LoginForm()
                 return render_template('login.html', form=login_form)
-        
+
         @app.route('/delete/<int:id>', methods=['POST', 'GET'])
         def delete(id):
             expense_to_delete = Expense.query.get_or_404(id)
@@ -221,7 +254,7 @@ def create_app(config_name):
             expenses = Expense.query.filter_by(user_id=session['user_id'])
             return render_template("view_expenses.html", user=session['user'], expenses=expenses)
 
-        @app. route('/purchases')
+        @app.route('/purchases')
         def purchases():
             if session.get('user'):
                 purchases = Purchase.query.filter_by(user_id=session['user_id'])
@@ -229,8 +262,8 @@ def create_app(config_name):
             else:
                 login_form = LoginForm()
                 return render_template('login.html', form=login_form)
-        
-        @app. route('/add_purchases', methods=['POST', 'GET'])
+
+        @app.route('/add_purchases', methods=['POST', 'GET'])
         def add_purchases():
             if session.get('user'):
                 if request.method == 'POST':
@@ -240,9 +273,9 @@ def create_app(config_name):
                         flash('Purchase amount cannot be negative')
                         return redirect(url_for('purchases'))
                     new_pur = Purchase(pur_name=pur_name,
-                                    pur=pur,
-                                    user_id=session['user_id']
-                                    )
+                                       pur=pur,
+                                       user_id=session['user_id']
+                                       )
                     db.session.add(new_pur)
                     db.session.commit()
                     purchases = Purchase.query.filter_by(user_id=session['user_id'])
@@ -252,17 +285,11 @@ def create_app(config_name):
                 login_form = LoginForm()
                 return render_template('login.html', form=login_form)
 
-        @app.route('/balance_chart')
-        def balance_chart():
+        @app.route('/advice')
+        def advice():
             if session.get('user'):
-                user_id = session['user_id']
-                balances = Balance.query.filter_by(user_id=user_id).all()
-                data = [{'bal': b.bal, 'bal_at': b.bal_at} for b in balances]
-                return render_template("balance_chart.html", data=data)
-                return render_template('balance_chart.html', data=data)
-            else:
-                login_form = LoginForm()
-                return render_template('login.html', form=login_form)
+                return render_template("advice.html", user=session['user'])
+            return render_template("advice.html")
 
         return app
 
@@ -270,4 +297,3 @@ def create_app(config_name):
 if __name__ == "__main__":
     app = create_app('production')
     app.run(host=os.getenv('IP', '127.0.0.1'), port=int(os.getenv('PORT', 5000)), debug=True)
-
