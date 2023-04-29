@@ -4,7 +4,7 @@ from flask import Flask, jsonify
 from flask import render_template, request, redirect, url_for, session, flash
 from database import db
 from models import User as User
-from models import Balance, Expense, Income
+from models import Balance, Expense, Purchase, Income
 from forms import LoginForm, RegisterForm, BalanceForm, IncomeForm
 import bcrypt
 import altair as alt
@@ -208,6 +208,37 @@ def create_app(config_name):
                 income_value = round(float(income.inc) / 26, 2)
                 return render_template("total_income.html", user=session['user'], balance=balance.bal if balance else 0,
                                        income=income_value if income else 0)
+            else:
+                login_form = LoginForm()
+                return render_template('login.html', form=login_form)
+        
+        @app. route('/purchases')
+        def purchases():
+            if session.get('user'):
+                purchases = Purchase.query.filter_by(user_id=session['user_id'])
+                return render_template("purchases.html", user=session['user'], purchases=purchases)
+            else:
+                login_form = LoginForm()
+                return render_template('login.html', form=login_form)
+        
+        @app. route('/add_purchases', methods=['POST', 'GET'])
+        def add_purchases():
+            if session.get('user'):
+                if request.method == 'POST':
+                    pur_name = request.form.get('product_name')
+                    pur = request.form.get('product_amount')
+                    if float(pur) < 0:
+                        flash('Purchase amount cannot be negative')
+                        return redirect(url_for('purchases'))
+                    new_pur = Purchase(pur_name=pur_name,
+                                    pur=pur,
+                                    user_id=session['user_id']
+                                    )
+                    db.session.add(new_pur)
+                    db.session.commit()
+                    purchases = Purchase.query.filter_by(user_id=session['user_id'])
+                    return redirect(url_for('purchases', user=session['user'], purchases=purchases))
+                return render_template("add_purchases.html", user=session['user'])
             else:
                 login_form = LoginForm()
                 return render_template('login.html', form=login_form)
