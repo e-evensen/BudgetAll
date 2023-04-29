@@ -13,6 +13,18 @@ from datetime import datetime, timedelta
 from sqlalchemy import create_engine
 
 
+def generate_chart(data):
+    chart = alt.Chart(data).mark_line().encode(
+        x='date:T',
+        y='balance:Q'
+    ).properties(
+        width=600,
+        height=300
+    ).interactive()
+
+    return chart
+
+
 def create_app(config_name):
     app = Flask(__name__)
 
@@ -35,28 +47,15 @@ def create_app(config_name):
         @app.route("/")
         @app.route("/index")
         def index():
-            # check if a user is saved in a session
-            # check if a user is saved in a session
             if session.get('user'):
-                if request.method == "POST":
-                    balance = request.form.get("balance")
-                    income = request.form.get("income")
-                    # process the form data
-                    return render_template('index.html', user=session['user'])
-                else:
-                    balance = Balance.query.filter_by(user_id=session['user_id']).order_by(Balance.bal_at.desc()).first()
-                    income = Income.query.filter_by(user_id=session['user_id']).order_by(Income.inc_at.desc()).first()
-                    balance_history = Balance.query.filter_by(user_id=session['user_id']).all()
-                    df = pd.DataFrame([(b.bal_at, b.bal) for b in balance_history], columns=['date', 'balance'])
-                    chart = alt.Chart(df).mark_line().encode(
-                        x='date:T',
-                        y='balance:Q'
-                    ).properties(
-                        width=600,
-                        height=300
-                    ).interactive()
-                    return render_template('index.html', user=session['user'], balance=balance, income=income,
-                                           chart=chart.to_json())
+                balance = Balance.query.filter_by(user_id=session['user_id']).order_by(Balance.bal_at.desc()).first()
+                income = Income.query.filter_by(user_id=session['user_id']).order_by(Income.inc_at.desc()).first()
+                balance_history = Balance.query.filter_by(user_id=session['user_id']).all()
+                df = pd.DataFrame([(b.bal_at, b.bal) for b in balance_history], columns=['date', 'balance'])
+                chart = generate_chart(df)
+                chart_json = chart.to_json()
+                return render_template('index.html', user=session['user'], balance=balance, income=income,
+                                       chart=chart_json)
             return render_template("index.html")
 
         @app.route("/set_balance", methods=['POST', 'GET'])
