@@ -77,7 +77,7 @@ class TestExpense(BaseTestCase):
                           expense_category='Test category'
                           ), follow_redirects=True
             )
-            assert b'<td>$ 100.0</td>\n' in response.data
+            assert b'<td>$100.0</td>\n' in response.data
 
     def test_navbar(self):
         with self.client:
