@@ -20,7 +20,7 @@ class TestChart(BaseTestCase):
         over_one_year = now - timedelta(days=380)
 
         balance_entries = [
-            Balance(bal=1700, user_id=self.user.id),
+            Balance(bal=1700.0, user_id=self.user.id),
             Balance(bal=1000.0, user_id=self.user.id, bal_at=one_week),
             Balance(bal=1500.0, user_id=self.user.id, bal_at=one_month),
             Balance(bal=2000.0, user_id=self.user.id, bal_at=six_months),
@@ -34,4 +34,28 @@ class TestChart(BaseTestCase):
         df = pd.DataFrame([(b.bal_at, b.bal) for b in balance_entries], columns=['date', 'balance'])
         self.df = df
 
+    def test_index_loads_chart(self):
+        with self.client:
+            self.client.post(
+                '/login', data=dict(
+                    email='testing@test.com',
+                    password='test_password'
+                ), follow_redirects=True
+            )
+        response = self.client.get('/')
+        assert response.status_code == 200
+        assert b'"balance": 1700.0' in response.data
+        assert b'"balance": 1000.0' in response.data
+        assert b'"balance": 1500.0' in response.data
+        assert b'"balance": 2000.0' in response.data
+        assert b'"balance": 2500.0' in response.data
+        assert b'"balance": 3000.0' in response.data
 
+    def test_chart_no_user(self):
+        response = self.client.get('/')
+        assert b'"balance": 1700.0' not in response.data
+        assert b'"balance": 1000.0' not in response.data
+        assert b'"balance": 1500.0' not in response.data
+        assert b'"balance": 2000.0' not in response.data
+        assert b'"balance": 2500.0' not in response.data
+        assert b'"balance": 3000.0' not in response.data
