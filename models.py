@@ -43,6 +43,7 @@ class Expense(db.Model):
         self.user_id = user_id
         self.exp_time = datetime.now()
 
+
 class Purchase(db.Model):
     id = db.Column("id", db.Integer, primary_key=True)
     pur_name = db.Column("pur_name", db.String)
