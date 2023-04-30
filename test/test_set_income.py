@@ -3,7 +3,7 @@ import unittest
 from models import User, Income
 
 
-class TestIncomePage(BaseTestCase):
+class TestIncome(BaseTestCase):
     def setUp(self):
         super().setUp()
         self.user = User.query.filter_by(username="testy").first()

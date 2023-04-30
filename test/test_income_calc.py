@@ -2,7 +2,7 @@ from base import BaseTestCase
 import unittest
 
 
-class TestCalculator(BaseTestCase):
+class TestIncome(BaseTestCase):
     def test_page(self):
         response = self.client.get('/total_income')
         assert response.status_code == 200

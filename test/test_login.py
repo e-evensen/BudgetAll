@@ -2,7 +2,7 @@ from base import BaseTestCase
 import unittest
 
 
-class Login(BaseTestCase):
+class TestLogin(BaseTestCase):
     def test_page(self):
         response = self.client.get('/login')
         assert response.status_code == 200
