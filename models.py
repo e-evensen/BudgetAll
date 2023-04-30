@@ -22,10 +22,10 @@ class Balance(db.Model):
     bal_at = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    def __init__(self, bal, user_id):
+    def __init__(self, bal, user_id, bal_at=None):
         self.bal = bal
         self.user_id = user_id
-        self.bal_at = datetime.now()
+        self.bal_at = bal_at if bal_at is not None else datetime.now()
 
 
 class Expense(db.Model):
