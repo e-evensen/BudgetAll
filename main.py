@@ -252,13 +252,17 @@ def create_app(config_name):
         
         @app.route('/update/<int:id>', methods=['POST', 'GET'])
         def update_expense(id):
-            session.query(Expense)
-            exp_name = request.form.get('update_exp_name'),
-            exp = request.form.get('update_exp'),
-            exp_cat = request.form.get('update_exp_cat')
-            db.session.commit()
-            expenses = Expense.query.filter_by(user_id=session['user_id'])
-            return render_template("view_expenses.html", user=session['user'], expenses=expenses)
+            expense = Expense.query.get(id)
+            if request.method == 'POST':
+                expense.exp_name = request.form.get('update_exp_name')
+                expense.exp = request.form.get('update_exp')
+                expense.exp_cat = request.form.get('update_exp_cat')
+                db.session.add(expense)
+                db.session.commit()
+                expenses = Expense.query.filter_by(user_id=session['user_id'])
+                return render_template("view_expenses.html", user=session['user'], expenses=expenses)
+            else:
+                return render_template('update_expense.html', expense=expense)
 
         @app.route('/purchases')
         def purchases():
