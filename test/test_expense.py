@@ -16,7 +16,6 @@ class TestExpense(BaseTestCase):
         with self.client:
             response = self.client.get('/view_expenses', follow_redirects=True)
             assert response.status_code == 200
-            print(response.data)
             assert b'Sign In' in response.data
 
     def test_expense_page_with_user(self):
@@ -47,18 +46,16 @@ class TestExpense(BaseTestCase):
                 '/add_expenses',
                 data=dict(expense_description='Test expense',
                           expense_amount='10.99',
-                          expense_category='Test category'
+                          expense_category='High'
                           ),
                 follow_redirects=True)
             assert response.status_code == 200
 
-            # Check that the expense was added to the database
             expense = Expense.query.filter_by(exp_name='Test expense').first()
             assert expense is not None
             assert expense.exp == 10.99
-            assert expense.exp_cat == 'Test category'
+            assert expense.exp_cat == 'High'
 
-            # Check that the expense is displayed on the view expenses page
             response = self.client.get('/view_expenses')
             assert b'Test expense' in response.data
 
@@ -74,10 +71,32 @@ class TestExpense(BaseTestCase):
                 '/add_expenses',
                 data=dict(expense_description='Test expense',
                           expense_amount='-10.0',
-                          expense_category='Test category'
+                          expense_category='High'
                           ), follow_redirects=True
             )
-            assert b'<td>$100.0</td>\n' in response.data
+            assert b'-10' not in response.data
+
+    def test_delete_expense(self):
+        with self.client:
+            self.client.post(
+                '/login', data=dict(
+                    email='testing@test.com',
+                    password='test_password'
+                ), follow_redirects=True
+            )
+            self.client.post(
+                '/add_expenses',
+                data=dict(expense_description='Delete Desc',
+                          expense_amount='50.0',
+                          expense_category='Delete Cat'
+                          ), follow_redirects=True
+            )
+            exp = Expense.query.filter_by(exp_name='Delete Desc').first()
+            assert exp is not None
+            response = self.client.post(f'/delete/{exp.id}', follow_redirects=True)
+            assert response.status_code == 200
+            del_exp = Expense.query.get(exp.id)
+            assert del_exp is None
 
     def test_navbar(self):
         with self.client:
