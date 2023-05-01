@@ -16,7 +16,6 @@ class TestPurchase(BaseTestCase):
         with self.client:
             response = self.client.get('/purchases', follow_redirects=True)
             assert response.status_code == 200
-            print(response.data)
             assert b'Sign In' in response.data
 
     def test_purchase_page_with_user(self):
@@ -29,7 +28,6 @@ class TestPurchase(BaseTestCase):
             )
 
             response = self.client.get('/purchases')
-            print(response.data)
             assert response.status_code == 200
             assert b'test purchase' in response.data
             assert b'300' in response.data
@@ -49,7 +47,6 @@ class TestPurchase(BaseTestCase):
                           product_amount='10.99'
                           ),
                 follow_redirects=True)
-            print(response.data)
             assert response.status_code == 200
 
             purchase = Purchase.query.filter_by(pur_name='test purchase').first()
@@ -73,7 +70,6 @@ class TestPurchase(BaseTestCase):
                           product_amount='-10'
                           ), follow_redirects=True
             )
-            print(response.data)
             assert b'$ -10.00' not in response.data
             assert b'<td>$ 300.0</td>\n' in response.data
 
