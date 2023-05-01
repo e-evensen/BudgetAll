@@ -17,7 +17,14 @@
 
         <h1>View Expenses</h1>
         <button id="add-expense-btn" class="buttonExp" onclick="addExpenseModal()" type="button">Add Expense</button>
-
+        <script>
+            function addExpenseModal() {
+            var modal = document.getElementById("add-expense-modal");
+            if (modal.style.display === "none" || modal.style.display === "") {
+                modal.style.display = "block";
+            }
+}
+        </script>
         <div id="add-expense-modal" style="display: none;"> 
             <form action="{{ url_for('add_expenses') }}" method="post">
                 <label>Expense Description:</label>
@@ -36,6 +43,14 @@
         </div>
 
         {% if expenses %}
+        <script>
+            function openForm(id) {
+              document.getElementById("popupForm-".concat(id)).style.display = "block";
+            }
+            function closeForm(id) {
+              document.getElementById("popupForm-".concat(id)).style.display = "none";
+            }
+        </script>
         <table class="fl-table table-sortable">
             <thead>
                 <tr>
@@ -49,18 +64,38 @@
             {% for expense in expenses %}
             <tr>
                 <td>{{ expense.exp_name }}</td>
-                <td>${{ expense.exp }}</td>
+                <td>{{ expense.exp }}</td>
                 <td>{{ expense.exp_cat }}</td>
                 <td style="text-align: left;">
-                    <button class="editButton">Edit</button> 
-                    <a href="{{ url_for('delete', id=expense.id) }}"  onclick="return confirm('Are you sure you want to delete this item?');" class="button1 deleteButton">Delete</a>
+                    <button class="editButton" onclick="openForm('{{expense.id}}')">Edit</button> 
+                    <a href="{{ url_for('delete_expense', id=expense.id) }}"  onclick="return confirm('Are you sure you want to delete this item?');" class="button1 deleteButton">Delete</a>
                 </td>
             </tr>
+            <div class="updatePopup">
+                <div class="formPopup" id="popupForm-{{expense.id}}">
+                  <form action="{{ url_for('update_expense', id=expense.id) }}" class="formContainer" method="post">
+                    <h2>Update Expense</h2>
+                    <label>Expense Description:</label>
+                    <input type="text" class = "inputExp" name="update_exp_name" required value="{{ expense.exp_name }}"><br>
+                    <label>Expense Amount:</label>
+                    <input type="number" class = "inputExp" step="0.01" name="update_exp" min="0" required value="{{ expense.exp }}"><br>
+                    <label>Expense Priority:</label>
+                    <select name="update_exp_cat">
+                    <option value="Essential">Essential</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                    </select><br>
+                    <button type="submit" class="btn">Update Expense</button>
+                    <button type="button" class="btn cancel" onclick="closeForm('{{expense.id}}')">Close</button>
+                  </form>
+                </div>
+              </div>
             {% endfor %}
             </tbody>
         </table>
-        <script src="{{ url_for('static', filename='expense.js') }}"></script>
         {% endif %}
         {% endblock %}
+    
     </body>
 </html>

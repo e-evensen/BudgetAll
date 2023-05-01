@@ -39,7 +39,6 @@ def generate_chart(df, start_date, end_date):
 
     return chart
 
-
 def create_app(config_name):
     app = Flask(__name__)
 
@@ -252,12 +251,22 @@ def create_app(config_name):
                 return render_template('login.html', form=login_form)
 
         @app.route('/delete/<int:id>', methods=['POST', 'GET'])
-        def delete(id):
+        def delete_expense(id):
             expense_to_delete = Expense.query.get_or_404(id)
 
             db.session.delete(expense_to_delete)
             db.session.commit()
             flash("Expense Deleted Successfully")
+            expenses = Expense.query.filter_by(user_id=session['user_id'])
+            return render_template("view_expenses.html", user=session['user'], expenses=expenses)
+        
+        @app.route('/update/<int:id>', methods=['POST', 'GET'])
+        def update_expense(id):
+            session.query(Expense)
+            exp_name = request.form.get('update_exp_name'),
+            exp = request.form.get('update_exp'),
+            exp_cat = request.form.get('update_exp_cat')
+            db.session.commit()
             expenses = Expense.query.filter_by(user_id=session['user_id'])
             return render_template("view_expenses.html", user=session['user'], expenses=expenses)
 
