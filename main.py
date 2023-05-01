@@ -135,16 +135,6 @@ def create_app(config_name):
                 # save the user's name to the session
                 session['user'] = username
                 session['user_id'] = new_user.id  # access id value from user model of this newly added user
-                # give new users 0 balance
-                bal = 0
-                new_balance = Balance(bal, session['user_id'])
-                db.session.add(new_balance)
-                db.session.commit()
-                # Give new users 0 income
-                inc = 0
-                new_income = Income(inc, session['user_id'])
-                db.session.add(new_income)
-                db.session.commit()
                 # show user dashboard view
                 return redirect(url_for('index'))
 
