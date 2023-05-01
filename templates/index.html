@@ -24,8 +24,10 @@
         <h2>Use this site for all your budgeting needs.</h2>
 
         {% if user %}
-            <p>Your balance is <span id="balance"></span></p>
-            <p>Your annual income is <span id="income"></span></p>
+            <p>Your balance is <span id="balance">{% if balance %}${{ balance.bal|default(0)|float|round(2)
+                }}{% else %}$0.00{% endif %}</span></p>
+            <p>Your annual income is <span id="income">{% if income %}${{ income.inc|default(0)|float|round(2)
+                }}{% else %}$0.00{% endif %}</span></p>
 
             <script>
                 var bal = {{ balance.bal }};
