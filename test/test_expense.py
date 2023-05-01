@@ -95,3 +95,7 @@ class TestExpense(BaseTestCase):
             assert b'View Expenses' in response.data
             assert b'Total Income Calculator' in response.data
             assert b'Logout' in response.data
+
+
+if __name__ == " __main__":
+    unittest.main()
