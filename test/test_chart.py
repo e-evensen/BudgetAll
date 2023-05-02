@@ -37,7 +37,6 @@ class TestChart(BaseTestCase):
                 ), follow_redirects=True
             )
         response = self.client.get('/')
-        print(response.data)
         assert response.status_code == 200
         assert b'"balance": 1250.0' in response.data
         assert b'"balance": 1500.0' in response.data
@@ -81,7 +80,6 @@ class TestChart(BaseTestCase):
         assert six_months.encode() not in response.data
 
         response = self.client.get('index?time_range=6_months')
-        print(response.data)
         assert six_months.encode() in response.data
         assert one_year.encode() not in response.data
 
