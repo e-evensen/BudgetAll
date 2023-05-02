@@ -1,4 +1,3 @@
-
   function addExpenseModal() {
     var modal = document.getElementById("add-expense-modal");
     if (modal.style.display === "none" || modal.style.display === "") {
@@ -53,24 +52,20 @@ $('#close').on('click', function () {
 
 $(document).ready(function() {
 	$(".editButton").click(function() {
-		// Get the expense data from the row
 		var expense_id = $(this).attr("id").split("-")[1];
 		var expense_description = $(this).closest("tr").find("td:eq(0)").text();
 		var expense_amount = $(this).closest("tr").find("td:eq(1)").text();
 		var expense_category = $(this).closest("tr").find("td:eq(2)").text();
 
-		// Fill the form with the expense data
 		$("#expense-id").val(expense_id);
 		$("#expense-description").val(expense_description);
 		$("#expense-amount").val(expense_amount);
 		$("#expense-category").val(expense_category);
 
-		// Show the modal
 		$("#update-expense-modal").show();
 	});
 
 	$("#update-expense-btn").click(function() {
-		// Hide the modal after submitting the form
 		$("#update-expense-modal").hide();
 	});
 });
