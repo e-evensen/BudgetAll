@@ -97,6 +97,7 @@ class TestExpense(BaseTestCase):
             assert response.status_code == 200
             del_exp = Expense.query.get(exp.id)
             assert del_exp is None
+            assert b'Delete Desc' not in response.data
 
     def test_navbar(self):
         with self.client:
