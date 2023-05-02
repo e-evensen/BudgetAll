@@ -39,6 +39,7 @@ def generate_chart(df, start_date, end_date):
 
     return chart
 
+
 def create_app(config_name):
     app = Flask(__name__)
 
