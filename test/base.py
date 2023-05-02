@@ -1,7 +1,7 @@
 from flask_testing import TestCase
 from main import create_app
 from database import db
-from models import User, Balance, Income, Expense
+from models import User, Balance, Income, Expense, Purchase
 import bcrypt
 
 
@@ -28,6 +28,11 @@ class BaseTestCase(TestCase):
                           user_id=user.id
                           )
         db.session.add(expense)
+        db.session.commit()
+        purchase = Purchase(pur_name='test purchase',
+                            pur=300,
+                            user_id=user.id)
+        db.session.add(purchase)
         db.session.commit()
 
     def tearDown(self):

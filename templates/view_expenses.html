@@ -9,40 +9,22 @@
         <!-- styles -->
         <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ url_for('static', filename='expense.js') }}"></script>
-
 
 </head>
     <body>
-        <header>
-            <div class="navdiv">
-            <nav>
-                <a href="{{ url_for('index') }}">Home</a> 💰
-                <a href="{{ url_for('calculator')}}">Calculator</a>
-            </nav>
-            </div>
-            <br>
-        {% if user %}
-            <nav>
-                <a href="{{ url_for('set_balance') }}">Update Balance</a> 💰
-                <a href="{{ url_for('set_income') }}">Update Income</a> 💰
-                <a href="{{ url_for('view_expenses')}}">View Expenses</a> 💰
-                <a href="{{ url_for('total_income') }}">Total Income Calculator</a> 💰
-                <a href="{{ url_for('logout') }}">Logout</a> 💰
-
-            </nav>
-            <br>
-        {% else %}
-            <nav>
-                <a href="{{ url_for('login') }}"> Sign In</a> 💰
-                <a href="{{ url_for('register') }}">Register</a>
-            </nav>
-        {% endif %}
-        </header>
+        {% extends "template.html" %}
+        {% block content %}
 
         <h1>View Expenses</h1>
         <button id="add-expense-btn" class="buttonExp" onclick="addExpenseModal()" type="button">Add Expense</button>
-
+        <script>
+            function addExpenseModal() {
+            var modal = document.getElementById("add-expense-modal");
+            if (modal.style.display === "none" || modal.style.display === "") {
+                modal.style.display = "block";
+            }
+}
+        </script>
         <div id="add-expense-modal" style="display: none;"> 
             <form action="{{ url_for('add_expenses') }}" method="post">
                 <label>Expense Description:</label>
@@ -60,29 +42,94 @@
             </form>
         </div>
 
-        
-
         {% if expenses %}
-        <div class="table-wrapper">
-            <table class="fl-table">
-                <thead>
+        <script>
+            function openForm(id) {
+              document.getElementById("popupForm-".concat(id)).style.display = "block";
+            }
+            function closeForm(id) {
+              document.getElementById("popupForm-".concat(id)).style.display = "none";
+            }
+        </script>
+        <table class="fl-table table-sortable">
+            <thead>
                 <tr>
                     <th>Name</th>
                     <th>Amount</th>
                     <th>Priority</th>
+                    <th></th>
                 </tr>
-                </thead>
-                <tbody>
-                {% for expense in expenses %}
-                <tr>
-                    <td>{{ expense.exp_name }}</td>
-                    <td>$ {{ expense.exp }}</td>
-                    <td>{{ expense.exp_cat }}</td>
-                </tr>
-                {% endfor %}
-                <tbody>
-            </table>
-        </div>
+            </thead>
+            <tbody>
+            {% for expense in expenses %}
+            <tr>
+                <td>{{ expense.exp_name }}</td>
+                <td>{{ expense.exp }}</td>
+                <td>{{ expense.exp_cat }}</td>
+                <td style="text-align: left;">
+                    <button class="editButton" onclick="openForm('{{expense.id}}')">Edit</button> 
+                    <a href="{{ url_for('delete_expense', id=expense.id) }}"  onclick="return confirm('Are you sure you want to delete this item?');" class="button1 deleteButton">Delete</a>
+                </td>
+            </tr>
+            <div class="updatePopup">
+                <div class="formPopup" id="popupForm-{{expense.id}}">
+                  <form action="{{ url_for('update_expense', id=expense.id) }}" class="formContainer" method="post">
+                    <h2>Update Expense</h2>
+                    <label>Expense Description:</label>
+                    <input type="text" class = "inputExp" name="update_exp_name" required value="{{ expense.exp_name }}"><br>
+                    <label>Expense Amount:</label>
+                    <input type="number" class = "inputExp" step="0.01" name="update_exp" min="0" required value="{{ expense.exp }}"><br>
+                    <label>Expense Priority:</label>
+                    <select name="update_exp_cat">
+                    <option value="Essential">Essential</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                    </select><br>
+                    <button type="submit" class="btn">Update Expense</button>
+                    <button type="button" class="btn cancel" onclick="closeForm('{{expense.id}}')">Close</button>
+                  </form>
+                </div>
+              </div>
+            {% endfor %}
+            </tbody>
+        </table>
+        <script>
+        function sortTableByColumn(table, column, asc = true) {
+            const dirModifier = asc ? 1 : -1;
+            const tBody = table.tBodies[0];
+            const rows = Array.from(tBody.querySelectorAll("tr"));
+        
+            const sortedRows = rows.sort((a, b) => {
+                const aColText = a.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
+                const bColText = b.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
+        
+                return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
+            });
+        
+            while (tBody.firstChild) {
+                tBody.removeChild(tBody.firstChild);
+            }
+        
+            tBody.append(...sortedRows);
+        
+            table.querySelectorAll("th").forEach(th => th.classList.remove("th-sort-asc", "th-sort-desc"));
+            table.querySelector(`th:nth-child(${column + 1})`).classList.toggle("th-sort-asc", asc);
+            table.querySelector(`th:nth-child(${column + 1})`).classList.toggle("th-sort-desc", !asc);
+        }
+        
+        document.querySelectorAll(".table-sortable th").forEach(headerCell => {
+            headerCell.addEventListener("click", () => {
+                const tableElement = headerCell.parentElement.parentElement.parentElement;
+                const headerIndex = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
+                const currentIsAscending = headerCell.classList.contains("th-sort-asc");
+        
+                sortTableByColumn(tableElement, headerIndex, !currentIsAscending);
+            });
+        });
+        </script>
         {% endif %}
+        {% endblock %}
+    
     </body>
 </html>

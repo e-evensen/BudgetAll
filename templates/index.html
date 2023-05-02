@@ -8,54 +8,58 @@
         <title>BudgetAll</title>
         <!-- styles -->
         <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
 </head>
     <body>
-        <header>
-            <div class="navdiv">
-            <nav>
-                <a href="{{ url_for('index') }}">Home</a> 💰
-                <a href="{{ url_for('calculator')}}">Calculator</a>
-            </nav>
-            </div>
-            <br>
-        {% if user %}
-            <nav>
-                <a href="{{ url_for('set_balance') }}">Update Balance</a> 💰
-                <a href="{{ url_for('set_income') }}">Update Income</a> 💰
-                <a href="{{ url_for('view_expenses')}}">View Expenses</a> 💰
-                <a href="{{ url_for('total_income') }}">Total Income Calculator</a> 💰
-                <a href="{{ url_for('logout') }}">Logout</a> 💰
-
-            </nav>
-            <br>
-        {% else %}
-            <nav>
-                <a href="{{ url_for('login') }}"> Sign In</a> 💰
-                <a href="{{ url_for('register') }}">Register</a>
-            </nav>
-        {% endif %}
-        </header>
+        {% extends "template.html" %}
+        {% block content %}
 
         <h1>Welcome {% if user %}{{user}}{% endif %} to BudgetAll!</h1>
         <hr>
 
         <h2>Use this site for all your budgeting needs.</h2>
 
-    {% if user %}
-        <p>Your balance is <span id="balance"></span></p>
-        <p>Your annual income is <span id="income"></span></p>
+        {% if user %}
+            <p>Your balance is <span id="balance">{% if balance %}${{ balance.bal|default(0)|float|round(2)
+                }}{% else %}$0.00{% endif %}</span></p>
+            <p>Your annual income is <span id="income">{% if income %}${{ income.inc|default(0)|float|round(2)
+                }}{% else %}$0.00{% endif %}</span></p>
 
-        <script>
-            var bal = {{ balance.bal }};
-            var balanceString = bal.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-            document.getElementById('balance').innerHTML = balanceString;
-        </script>
-        <script>
-            var inc = {{ income.inc }};
-            var incomeString = inc.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-            document.getElementById('income').innerHTML = incomeString;
-        </script>
-    {% endif %}
+            <script>
+                var bal = {{ balance.bal }};
+                var balanceString = bal.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                document.getElementById('balance').innerHTML = balanceString;
+            </script>
+            <script>
+                var inc = {{ income.inc }};
+                var incomeString = inc.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                document.getElementById('income').innerHTML = incomeString;
+            </script>
+            {% if chart %}
+                <div id="chart"></div>
+                <form method="GET" action="/index">
+                <label for="time_range">Select Time Range:</label>
+                <select name="time_range" id="time_range">
+                    <option value="1_week">1 Week</option>
+                    <option value="1_month">1 Month</option>
+                    <option value="6_months">6 Months</option>
+                    <option value="1_year">1 Year</option>
+                    <option value="all_time">All Time</option>
+                </select>
+                <input type="submit" value="Submit">
+                </form>
+                <script>
+                    var chart = {{ chart|safe }};
+                    var embed_opt = {"mode": "vega-lite"};
+                    vegaEmbed('#chart', chart, embed_opt);
+                </script>
+            {% endif %}
+        {% endif %}
 
+        {% endblock %}
     </body>
 </html>

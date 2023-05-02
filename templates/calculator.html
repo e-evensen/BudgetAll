@@ -8,33 +8,10 @@
 </head>
 
 <body>
-    <header>
-        <div class="navdiv">
-            <nav>
-                <a href="{{ url_for('index') }}">Home</a> 💰
-                <a href="{{ url_for('calculator')}}">Calculator</a>
-            </nav>
-            </div>
-            <br>
-        {% if user %}
-            <nav>
-                <a href="{{ url_for('set_balance') }}">Update Balance</a> 💰
-                <a href="{{ url_for('set_income') }}">Update Income</a> 💰
-                <a href="{{ url_for('view_expenses')}}">View Expenses</a> 💰
-                <a href="{{ url_for('total_income') }}">Total Income Calculator</a> 💰
-                <a href="{{ url_for('logout') }}">Logout</a> 💰
+    {% extends "template.html" %}
+    {% block content %}
 
-            </nav>
-            <br>
-        {% else %}
-            <nav>
-                <a href="{{ url_for('login') }}"> Sign In</a> 💰
-                <a href="{{ url_for('register') }}">Register</a>
-            </nav>
-        {% endif %}
-    </header>
-
-    <div class="calc">
+    <div class="formwrapper">
         <h1>Savings Calculator</h1>
             <form name="calcForm">
                 <label for="cost">Enter how much you want to save up:</label>
@@ -43,12 +20,10 @@
                 <label for="income">Enter your net daily income (after expenses):</label>
                 <input type="number" id="income" name="income"><br><br>
   
-                <button type="button" onclick="displayResult()" class="buttonCalc">Calculate</button>
+                <button type="button" onclick="displayResult()" class="buttonExp">Calculate</button>
             </form>
       <div id="result"></div>
     </div>
-    
-  
-    
+    {% endblock %}
 </body>
 </html>

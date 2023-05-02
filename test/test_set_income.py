@@ -3,7 +3,7 @@ import unittest
 from models import User, Income
 
 
-class TestIncomePage(BaseTestCase):
+class TestIncome(BaseTestCase):
     def setUp(self):
         super().setUp()
         self.user = User.query.filter_by(username="testy").first()
@@ -17,7 +17,6 @@ class TestIncomePage(BaseTestCase):
         with self.client:
             response = self.client.get('/set_income', follow_redirects=True)
             assert response.status_code == 200
-            print(response.data)
             assert b'Sign In' in response.data
 
     def test_income_page_access(self):
@@ -71,7 +70,6 @@ class TestIncomePage(BaseTestCase):
             assert b'<h2 class="title">Set Annual Income</h2>\n' in response.data
             # Test that income is NOT updated in the database
             income = Income.query.filter_by(user_id=self.user.id).order_by(Income.inc_at.desc()).first()
-            print(income.inc)
             assert income.inc != 'test'
 
     def test_income_negative_input(self):

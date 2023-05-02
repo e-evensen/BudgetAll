@@ -1,21 +1,46 @@
 body {
-    padding: 30px 30px;
-    text-align: center;
-    background-color: #82f9f7dc;
-    font-family: Arial, sans-serif;
-    }
-h1{
-    color: #008000;}
-h2{
-    color:rgb(26, 177, 18);
+  padding: 30px 30px;
+  text-align: center;
+  background-color: #ADD8E6;
+  font-family: Arial, sans-serif;
 }
-hr{
+
+header {
+  background-color: #000080;
+  margin-left: auto;
+  margin-right: auto;
+  margin: 0;
+}
+
+.mainNav {
+  text-decoration: none;
+  color: #FFD700;
+  background-color: #663399;
+  border: 1px solid #663399;
+}
+
+.mainNav:hover {
+  background: white;
+  color: #000080;
+}
+
+.mainNav:active {
+  background: white;
+  color: #000080;
+}
+
+h1 {
+  color: #007F3F;}
+h2 {
+    color:#007F3F;
+}
+hr {
     padding: 2px;
-    border-color: rgb(3, 164, 16);
+    border-color: #007F3F;
     border-width: 2px;
     border-top-right-radius: 2px;
     border-style: groove;
-    background-color: #008000;
+    background-color: #007F3F;
 }
   /* Center login form on the page */
   .login-form {
@@ -26,13 +51,12 @@ hr{
     height: 100vh;
   }
   .calc {
-    text-align: left;
-    font-family: 'Courier New', Courier, monospace;
-    color: #16a31b;
+    text-align: center;
+    color: #007F3F;
     font-weight:bold;
   }
   .buttonCalc{
-      background-color: #16a31b; /* Green */
+      background-color: #007F3F; /* Green */
       border: none;
       color: rgb(8, 3, 15);
 
@@ -40,7 +64,6 @@ hr{
       text-align: center;
       text-decoration: none;
       display: inline-block;
-      font-family: 'Courier New', Courier, monospace;
       font-size: 16px;
     }
 
@@ -79,7 +102,7 @@ hr{
 
   /* Style success messages */
   .success-message {
-    color: #008000;
+    color: #007F3F;
     margin-top: 10px;
   }
 
@@ -98,8 +121,9 @@ hr{
   font-weight: normal;
   border: none;
   border-collapse: collapse;
-  width: 100%;
+  width: auto;
   max-width: 100%;
+  margin: 0 auto;
   white-space: nowrap;
   background-color: white;
 }
@@ -115,8 +139,8 @@ hr{
 }
 
 .fl-table thead th {
-  color: #ffffff;
-  background: #4FC3A1;
+  color: #000000;
+  background: #ADD8E6;
 }
 
 .fl-table tr:nth-child(even) {
@@ -128,17 +152,21 @@ hr{
   display:inline-block;
   padding:0.2em 1.45em;
   margin:0.1em;
-  border:0.15em solid #CCCCCC;
+  border: 1px solid #663399;
   box-sizing: border-box;
   text-decoration:none;
-  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 18px;
   font-weight:400;
-  color:#000000;
-  background-color:#CCCCCC;
+  color: #FFD700;
+  background: #663399;
   text-align:center;
   position:relative;
   width: auto;
+}
+
+.buttonExp:hover{
+  background: white;
+  color: #000080;
 }
 
 .buttonExp:hover{
@@ -186,4 +214,130 @@ img{
   max-width: 400px;
   padding-top: 9px;
   padding-bottom: 9px;;
+}
+/* Styling for Sortable Table Headers */
+.table-sortable th {
+	cursor: pointer;
+}
+
+.table-sortable .th-sort-asc::after {
+	content: "\25b4";
+}
+
+.table-sortable .th-sort-desc::after {
+	content: "\25be";
+}
+
+.table-sortable .th-sort-asc::after,
+.table-sortable .th-sort-desc::after {
+	margin-left: 5px;
+}
+
+.table-sortable .th-sort-asc,
+.table-sortable .th-sort-desc {
+	background: rgba(0, 0, 0, 0.1);
+}
+/* Styling for table buttons */
+.editButton {
+	box-shadow:inset 0px 0px 0px -1px #9acc85;
+	background:linear-gradient(to bottom, #74ad5a 5%, #68a54b 100%);
+	background-color:#74ad5a;
+	border:1px solid #3b6e22;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:13px;
+	padding:4px 0px;
+	text-decoration:none;
+  width: 50px;
+}
+.editButton:hover {
+	background:linear-gradient(to bottom, #68a54b 5%, #74ad5a 100%);
+	background-color:#68a54b;
+}
+.editButton:active {
+	position:relative;
+	top:1px;
+}
+
+.deleteButton {
+	box-shadow:inset 0px 0px 0px -1px #cc8585;
+	background:linear-gradient(to bottom, #ad5a5a 5%, #a54b4b 100%);
+	background-color:#ad5a5a;
+	border:1px solid #6e2222;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:13px;
+	padding:4px 0px;
+	text-decoration:none;
+  width: 50px;
+  text-align: center;
+  
+}
+.deleteButton:hover {
+	background:linear-gradient(to bottom, #a54b4b 5%, #ad5a5a 100%);
+	background-color:#a54b4b;
+}
+.deleteButton:active {
+	position:relative;
+	top:1px;
+}
+
+.center {
+  margin: auto;
+  width: 60%;
+  padding: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.hideform {
+  display: none;
+}
+.formPopup {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 5%;
+  transform: translate(-50%, 5%);
+  border: 3px solid #999999;
+  z-index: 9;
+  background-color: white;
+}
+.formContainer {
+  max-width: 500px;
+  padding: 20px;
+  background-color: #fff;
+}
+.formContainer input[type=text],
+.formContainer input[type=password] {
+  width: 75%;
+  padding: 15px;
+  margin: 5px 0 20px 0;
+  border: none;
+  background: #eee;
+}
+.formContainer input[type=text]:focus,
+.formContainer input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+.formContainer .btn {
+  padding: 12px 20px;
+  border: none;
+  background-color: #8ebf42;
+  color: #fff;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 15px;
+  opacity: 0.8;
+}
+.formContainer .cancel {
+  background-color: #cc0000;
+}
+.formContainer .btn:hover,
+.openButton:hover {
+  opacity: 1;
 }
