@@ -17,7 +17,6 @@ class TestBalance(BaseTestCase):
         with self.client:
             response = self.client.get('/set_balance', follow_redirects=True)
             assert response.status_code == 200
-            print(response.data)
             assert b'Sign In' in response.data
 
     def test_balance_page_access(self):

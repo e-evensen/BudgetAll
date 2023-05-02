@@ -11,7 +11,6 @@ class TestIncome(BaseTestCase):
         with self.client:
             response = self.client.get('/total_income', follow_redirects=True)
             assert response.status_code == 200
-            print(response.data)
             assert b'Sign In' in response.data
 
     def test_logged_in_user(self):
