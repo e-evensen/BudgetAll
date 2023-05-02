@@ -12,7 +12,7 @@ class TestChart(BaseTestCase):
 
         now = datetime.now()
         one_week = now - timedelta(days=6)
-        one_month = now - timedelta(days=30)
+        one_month = now - timedelta(days=29)
         six_months = now - timedelta(days=30*6)
         one_year = now - timedelta(days=360)
         over_one_year = now - timedelta(days=380)
@@ -62,25 +62,32 @@ class TestChart(BaseTestCase):
                     password='test_password'
                 ), follow_redirects=True
             )
+        now = datetime.now()
+        one_week = (now - timedelta(days=6)).strftime('%Y-%m-%d')
+        one_month = (now - timedelta(days=29)).strftime('%Y-%m-%d')
+        six_months = (now - timedelta(days=30 * 6)).strftime('%Y-%m-%d')
+        one_year = (now - timedelta(days=360)).strftime('%Y-%m-%d')
+        over_one_year = (now - timedelta(days=380)).strftime('%Y-%m-%d')
         # default view is all time
         response = self.client.get('/')
-        assert b'2022-04-15' in response.data
+        assert over_one_year.encode() in response.data
 
         response = self.client.get('index?time_range=1_week')
-        assert b'2023-04-24' in response.data
-        assert b'2023-03-31' not in response.data
+        assert one_week.encode() in response.data
+        assert one_month.encode() not in response.data
 
         response = self.client.get('index?time_range=1_month')
-        assert b'2023-03-31' in response.data
-        assert b'2023-11-01' not in response.data
+        assert one_month.encode() in response.data
+        assert six_months.encode() not in response.data
 
         response = self.client.get('index?time_range=6_months')
-        assert b'2022-11-01' in response.data
-        assert b'2022-04-30' not in response.data
+        print(response.data)
+        assert six_months.encode() in response.data
+        assert one_year.encode() not in response.data
 
         response = self.client.get('index?time_range=1_year')
-        assert b'2022-05-05' in response.data
-        assert b'2022-04-15' not in response.data
+        assert one_year.encode() in response.data
+        assert over_one_year.encode() not in response.data
 
     def test_dropdown_list(self):
         with self.client:
