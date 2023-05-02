@@ -99,6 +99,36 @@ class TestExpense(BaseTestCase):
             assert del_exp is None
             assert b'Delete Desc' not in response.data
 
+    def test_edit_expense(self):
+        with self.client:
+            self.client.post(
+                '/login', data=dict(
+                    email='testing@test.com',
+                    password='test_password'
+                ), follow_redirects=True
+            )
+            self.client.post(
+                '/add_expenses',
+                data=dict(expense_description='Update Desc',
+                          expense_amount='75.0',
+                          expense_category='Low'
+                          ), follow_redirects=True
+            )
+            exp = Expense.query.filter_by(exp_name='Update Desc').first()
+            response = self.client.post(
+                f'/update/{exp.id}',
+                data=dict(update_exp_name='New Desc',
+                          update_exp='99.0',
+                          update_exp_cat='High'
+                          ), follow_redirects=True
+            )
+            assert exp.exp_name == 'New Desc'
+            assert exp.exp == 99.0
+            assert exp.exp_cat == 'High'
+            assert b'New Desc' in response.data
+            assert b'99.0' in response.data
+            assert b'High' in response.data
+
     def test_navbar(self):
         with self.client:
             self.client.post(
