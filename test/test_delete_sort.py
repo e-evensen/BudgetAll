@@ -2,7 +2,8 @@ from models import User, Expense
 from base import BaseTestCase
 import unittest
 
-class testDeleteSort (BaseTestCase):
+
+class TestDeleteSort (BaseTestCase):
     def setUp(self):
         super().setUp()
         self.user = User.query.filter_by(username="testy").first()
@@ -13,7 +14,7 @@ class testDeleteSort (BaseTestCase):
         assert response.status_code == 200
 
     # Test that page requires login
-    def test_requires_loging(self):
+    def test_requires_login(self):
         with self.client:
             response = self.client.get('/view_expenses', follow_redirects=True)
             assert response.status_code == 200
@@ -40,7 +41,6 @@ class testDeleteSort (BaseTestCase):
         deleted = Expense.query.filter_by(id=1).first()
         assert deleted is None
 
-
     # Tests sorting of expense table
     
     # Tests sorting, visually in expense.js, not sure where in python
@@ -53,6 +53,8 @@ class testDeleteSort (BaseTestCase):
                 ), follow_redirects=True
             )
         
-            response = self.client.get('/view_expenses'
+            response = self.client.get('/view_expenses')
 
-            )
+
+if __name__ == " __main__":
+    unittest.main()
