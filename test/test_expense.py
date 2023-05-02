@@ -69,12 +69,12 @@ class TestExpense(BaseTestCase):
             )
             response = self.client.post(
                 '/add_expenses',
-                data=dict(expense_description='Test expense',
+                data=dict(expense_description='Neg Expense',
                           expense_amount='-10.0',
                           expense_category='High'
                           ), follow_redirects=True
             )
-            assert b'-10' not in response.data
+            assert b'Neg Expense' not in response.data
 
     def test_delete_expense(self):
         with self.client:
